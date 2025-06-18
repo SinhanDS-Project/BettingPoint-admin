@@ -11,7 +11,7 @@
 
 	<!-- @Service @Component 등록 -->
 	<context:component-scan
-		base-package="com.bettopia.admin.controller.model" />
+		base-package="com.bettopia.admin.model" />
 
 	<!-- DB properties 등록 -->
 	<bean
