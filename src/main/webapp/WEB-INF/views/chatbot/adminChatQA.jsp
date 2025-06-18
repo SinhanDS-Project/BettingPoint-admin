@@ -14,61 +14,53 @@
 	    const cpath = "${pageContext.request.contextPath}";
 	</script>
 	<script src="${cpath}/resources/js/adminChatQA.js"></script>
-    
+
 </head>
 <body>
+	<div id="chatbot">
+	    <div class="page-header">
+            <h2 style="margin-bottom: 10px;">🤖 챗봇 QnA 목록</h2>
+        </div>
+        <button class="btn btn-back" onclick="?">대시보드로 돌아가기</button>
 
-    <h2>챗봇 QA 목록</h2>
-    <table id="qaTable">
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>카테고리</th>
-                <th>질문</th>
-                <th>답변</th>
-                <th>수정/삭제</th>
-            </tr>
-        </thead>
-        <tbody>
+	    
+	    <!-- QnA 등록 폼 -->
+        <div class="form-section">
+            <h3>QnA 등록</h3>
+            <p style="color: #718096; margin-bottom: 20px;">챗봇이 사용할 질문과 답변을 등록합니다.</p>
+            <form id="qnaForm" method="post">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="qnaQuestion">질문</label>
+                        <input type="text" id="qnaQuestion" placeholder="자주 묻는 질문을 입력하세요" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="qnaCategory">카테고리</label>
+                        <select id="qnaCategory" required>
+                            <option value="">카테고리 선택</option>
+                            <option value="game">게임</option>
+                            <option value="point">포인트</option>
+                            <option value="etc">기타</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="qnaAnswer">답변</label>
+                    <textarea id="qnaAnswer" rows="4" placeholder="답변을 입력하세요" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">QnA 등록</button>
+            </form>
+        </div>
         
-        </tbody>
-    </table>
-
-    <div class="form-container">
-        <h3>QA 등록/수정</h3>
-        <div class="form-actions">
-	        <button type="button" onclick="insertQA()">
-	        	<img src="${cpath}/resources/images/register.png" width="15" height="15"> 등록
-	        </button>
-	        <button type="button" onclick="updateQA()">
-	        	<img src="${cpath}/resources/images/edit.png" width="15" height="15"> 수정
-	        </button>
-	    </div>
-        <form id="qaForm">
-            <input type="hidden" id="uid">
-            
-            <label>카테고리:</label><br>
-			<div id="categoryButtons">
-			    <button type="button" class="category-btn" data-category="game">게임</button>
-			    <button type="button" class="category-btn" data-category="point">포인트</button>
-			    <button type="button" class="category-btn" data-category="etc">기타</button>
-			</div>
-			<input type="hidden" id="category">
-            
-            <label>질문:</label><br>
-            <input type="text" id="question_text"><br>
-            
-            <label>답변:</label><br>
-            <textarea id="answer_text" rows="4"></textarea><br>
-            
-            <br>
-            
-        </form>
     </div>
-
-    <script>
-
-    </script>
-
+    
+    <!-- QnA 리스트 테이블 -->
+    <div class="card">
+    	<h3>등록된 QnA</h3>
+	    <!-- 이 div에 카드들이 추가됨 -->
+		<div id="qnaList" class="qna-list"></div>
+		<div id="pagination" class="pagination" style="margin-top: 20px; text-align: center;"></div>
+	</div>
+  
 </body>
 </html>

@@ -47,7 +47,7 @@ public class ChatDAOMybatis implements ChatDAOInterface {
 	public int deleteQA(String uid) {
 		int result = sqlSession.delete(namespace + "delete", uid);
 		System.out.println("삭제된 uid: " + uid);
-		System.out.println(result + "건 수정");
+		System.out.println(result + "건 삭제");
 		return result;
 	}
 
