@@ -74,10 +74,4 @@ public class HomeController {
         return "chatbot/adminChatQA"; 
     }
 	
-	@GetMapping("/.well-known/appspecific/com.chrome.devtools.json")
-    @ResponseBody
-    public void ignoreRequest() {
-        // 경고 출력 방지
-    }
-	
 }
