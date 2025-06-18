@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+	table {
+	    width: 90%;
+	    table-layout: fixed;
+	    border-collapse: collapse;
+	    margin-top: 20px;
+	}
+	th, td {
+	    border: 1px solid #ccc;
+	    padding: 8px;
+	    text-align: left;
+	    word-wrap: break-word;
+	}
+	th:nth-child(1), td:nth-child(1) { width: 5%; }   /* No. */
+	th:nth-child(2), td:nth-child(2) { width: 5%; }  /* 카테고리 */
+	th:nth-child(3), td:nth-child(3) { width: 25%; }  /* 질문 */
+	th:nth-child(4), td:nth-child(4) { width: 45%; }  /* 답변 */
+	th:nth-child(5), td:nth-child(5) { width: 10%; }  /* 수정/삭제 */
+	   
+	   input[type="text"], textarea { width: 90%; }
+		.form-container { 
+			width: 85%;
+			margin-top: 20px; 
+			border: 1px solid #ddd; 
+			padding: 15px; 
+		}
+		.form-actions {
+		    text-align: right;
+		    margin-top: 10px;
+		}
+	   
+	    .category-btn {
+	    margin-right: 8px;
+	    padding: 6px 12px;
+	    border: 1px solid #ccc;
+	    background-color: #f9f9f9;
+	    cursor: pointer;
+		}
+		
+		.category-btn.active {
+		    background-color: #007bff;
+		    color: white;
+		    font-weight: bold;
+		}
