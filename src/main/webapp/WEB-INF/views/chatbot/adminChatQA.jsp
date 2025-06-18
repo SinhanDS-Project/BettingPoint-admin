@@ -28,7 +28,7 @@
         <div class="form-section">
             <h3>QnA 등록</h3>
             <p style="color: #718096; margin-bottom: 20px;">챗봇이 사용할 질문과 답변을 등록합니다.</p>
-            <form id="qnaForm">
+            <form id="qnaForm" method="post">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="qnaQuestion">질문</label>

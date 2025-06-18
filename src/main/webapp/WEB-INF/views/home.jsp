@@ -623,61 +623,8 @@
             </div>
         </div>
 
-        
-            <!-- 기존 QnA 리스트 -->
-            <div class="card">
-                <h3 style="margin-bottom: 20px;">등록된 QnA</h3>
-                <div class="qna-item">
-                    <h4>Q: 회원가입은 어떻게 하나요?</h4>
-                    <div class="answer"><strong>A:</strong> 홈페이지 우상단의 회원가입 버튼을 클릭하세요.</div>
-                    <div class="meta">카테고리: 계정 | 등록일: 2024-01-15</div>
-                    <button class="btn btn-warning">수정</button>
-                    <button class="btn btn-danger">삭제</button>
-                </div>
-                <div class="qna-item">
-                    <h4>Q: 게임 규칙을 알고 싶어요</h4>
-                    <div class="answer"><strong>A:</strong> 각 게임 페이지에서 규칙을 확인할 수 있습니다.</div>
-                    <div class="meta">카테고리: 게임 | 등록일: 2024-01-10</div>
-                    <button class="btn btn-warning">수정</button>
-                    <button class="btn btn-danger">삭제</button>
-                </div>
-            </div>
+            
 
-            <!-- 회원 질의 내역 -->
-            <div class="card">
-                <h3 style="margin-bottom: 20px;">회원 질의 내역</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>회원ID</th>
-                            <th>질문</th>
-                            <th>답변</th>
-                            <th>날짜</th>
-                            <th>상태</th>
-                            <th>작업</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="font-weight: 600;">user123</td>
-                            <td>포인트 충전이 안돼요</td>
-                            <td>고객센터로 문의해주세요.</td>
-                            <td>2024-01-20</td>
-                            <td><span class="badge badge-user">답변완료</span></td>
-                            <td><button class="btn btn-warning">수정</button></td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: 600;">user456</td>
-                            <td>비밀번호를 잊어버렸어요</td>
-                            <td>-</td>
-                            <td>2024-01-21</td>
-                            <td><span class="badge badge-admin">대기중</span></td>
-                            <td><button class="btn btn-primary">답변하기</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 
 </body>
