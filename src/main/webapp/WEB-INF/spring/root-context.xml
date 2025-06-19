@@ -35,15 +35,6 @@
 		<property name="username" value="${mysql.username}" />
 		<property name="password" value="${mysql.pwd}" />
 	</bean>  
-
-<!-- 	<bean id="dataSourceOriginal" primary="true"
-		class="org.apache.commons.dbcp2.BasicDataSource">
-		<property name="driverClassName"
-			value="com.mysql.cj.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://192.168.0.135:3306/betting" />
-		<property name="username" value="betting" />
-		<property name="password" value="betting" />
-	</bean> -->
 	
 	<!-- sqlSession 환경 -->
 	<bean id="sqlSessionFactory"
