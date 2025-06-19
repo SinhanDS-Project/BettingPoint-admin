@@ -24,4 +24,10 @@
 	<!-- @Controller 등록 -->
 	<context:component-scan base-package="com.bettopia.admin.controller" />
 	
+	<!-- multipartResolver 등록 -->
+	<beans:bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	   <beans:property name="maxUploadSize" value="10000000"/>
+	</beans:bean>
+	
+	
 </beans:beans>
