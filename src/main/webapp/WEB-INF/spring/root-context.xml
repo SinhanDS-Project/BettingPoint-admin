@@ -9,28 +9,42 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-	<!-- @Service @Component 등록 -->
+	<!-- @Service @Component 등록, @Configuration 등록-->
 	<context:component-scan
-		base-package="com.bettopia.admin.model" />
+		base-package="com.bettopia.admin.model, com.bettopia.admin.config" />
 
 	<!-- DB properties 등록 -->
 	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
-			value="/WEB-INF/spring/mysqlDB.properties" />
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>WEB-INF/spring/mysqlDB.properties</value>
+				<value>classpath:aws_s3/application.properties</value>	      
+			</list>
+		</property>
+			
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>
 
 	<!-- DB 개체 등록 -->
-	<bean id="dataSourceOriginal" primary="true"
+ 	<bean id="dataSourceOriginal" primary="true"
 		class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName"
 			value="${mysql.driverClassName}" />
 		<property name="url" value="${mysql.url}" />
 		<property name="username" value="${mysql.username}" />
 		<property name="password" value="${mysql.pwd}" />
-	</bean>
+	</bean>  
 
+<!-- 	<bean id="dataSourceOriginal" primary="true"
+		class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://192.168.0.135:3306/betting" />
+		<property name="username" value="betting" />
+		<property name="password" value="betting" />
+	</bean> -->
+	
 	<!-- sqlSession 환경 -->
 	<bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
