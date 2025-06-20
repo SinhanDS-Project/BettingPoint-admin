@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,8 +29,11 @@ public class S3FileService {
 		if (file.isEmpty())
 			return null;
 		String originalName = file.getOriginalFilename();
+		String extension = originalName.substring(originalName.lastIndexOf("."));
 		// 폴더 경로/파일명 형태로 지정(폴더 없으면 그냥 파일명만)
-		String key = (dirName != null && !dirName.isEmpty() ? dirName + "/" : "") + originalName;
+	    String key = (dirName != null && !dirName.isEmpty() ? dirName + "/" : "") 
+	    						+ UUID.randomUUID() 
+	    						+ extension;
 
 		try (InputStream is = file.getInputStream()) {
 			
