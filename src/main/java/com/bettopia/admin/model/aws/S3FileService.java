@@ -2,11 +2,14 @@ package com.bettopia.admin.model.aws;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,16 +22,23 @@ public class S3FileService {
 	@Autowired
 	AmazonS3Client amazonS3; // 앞서 설정한 AmazonS3 빈 주입
 
-	@Value("${AMAZONPROPERTIES_BUCKETNAME}")
-	private String bucketName;
+	@Autowired
+    @Qualifier("s3BucketName")
+    private String bucketName;
 
 	// 단일 파일 업로드
 	public String uploadFile(MultipartFile file, String dirName) {
 		if (file.isEmpty())
 			return null;
-		String originalName = file.getOriginalFilename();
+//		String originalName = file.getOriginalFilename();
+		String originalName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8);
+		
+		String extension = originalName.substring(originalName.lastIndexOf("."));
+		
 		// 폴더 경로/파일명 형태로 지정(폴더 없으면 그냥 파일명만)
-		String key = (dirName != null && !dirName.isEmpty() ? dirName + "/" : "") + originalName;
+	    String key = (dirName != null && !dirName.isEmpty() ? dirName + "/" : "") 
+	    						+ UUID.randomUUID() 
+	    						+ extension;
 
 		try (InputStream is = file.getInputStream()) {
 			

@@ -13,17 +13,23 @@
     <script>
 	    const cpath = "${pageContext.request.contextPath}";
 	</script>
-	<script src="${cpath}/resources/js/adminChatQA.js"></script>
+	<script src="${cpath}/resources/js/adminChatQA.js" defer></script>
 
 </head>
 <body>
-	<div id="chatbot">
-	    <div class="page-header">
-            <h2 style="margin-bottom: 10px;">🤖 챗봇 QnA 목록</h2>
+	<div class="chatbot">
+		<div class="page-header">
+            <h1>관리자 대시보드</h1>
+            <p>모든 관리 기능을 한눈에 확인하고 관리하세요</p>
         </div>
-        <button class="btn btn-back" onclick="?">대시보드로 돌아가기</button>
-
-	    
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+			<div>
+			    <h2 style="margin-bottom: 10px;">🤖 챗봇 관리</h2>
+				<p style="color: #718096;">QnA와 사용자 질의를 관리하세요.</p>
+			</div>
+			<button class="btn btn-back" onclick="location.href='/admin'">대시보드로 돌아가기</button>
+		</div>
+        	    
 	    <!-- QnA 등록 폼 -->
         <div class="form-section">
             <h3>QnA 등록</h3>
@@ -52,14 +58,15 @@
             </form>
         </div>
         
-    </div>
     
-    <!-- QnA 리스트 테이블 -->
-    <div class="card">
-    	<h3>등록된 QnA</h3>
-	    <!-- 이 div에 카드들이 추가됨 -->
-		<div id="qnaList" class="qna-list"></div>
-		<div id="pagination" class="pagination" style="margin-top: 20px; text-align: center;"></div>
+    
+	    <!-- QnA 리스트 테이블 -->
+	    <div class="card">
+	    	<h3>등록된 QnA</h3>
+		    <!-- 이 div에 카드들이 추가됨 -->
+			<div id="qnaList" class="qna-list"></div>
+			<div id="pagination" class="pagination" style="margin-top: 20px; text-align: center;"></div>
+		</div>
 	</div>
   
 </body>

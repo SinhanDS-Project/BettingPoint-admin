@@ -51,9 +51,9 @@ public class HomeController {
 	}
 	
 	// 컨텐츠 관리 페이지 (배튜브)
-	@GetMapping("/bettube")
+	@GetMapping("/contents")
 	public String contentsManagePage(Model model) {
-		return "bettube/bettube"; 
+		return "contents/contents"; 
 	}
 	
 	// 게임 통계 관리 페이지 (배튜브)

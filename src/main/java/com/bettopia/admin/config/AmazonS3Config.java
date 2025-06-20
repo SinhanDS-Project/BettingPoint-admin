@@ -22,8 +22,11 @@ public class AmazonS3Config {
     
     @Value("${AMAZONPROPERTIES_REGION}")
     private String region;
+    
+    @Value("${AMAZONPROPERTIES_BUCKETNAME}")
+    private String bucketName;
 
-    @Bean
+	@Bean
     public AmazonS3Client amazonS3Client() {
         // AWS 자격증명 객체 생성
     	AWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
@@ -32,6 +35,11 @@ public class AmazonS3Config {
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .withRegion(region)
                 .build();
+    }
+	
+	@Bean
+    public String s3BucketName() {
+        return bucketName;
     }
 }
 
