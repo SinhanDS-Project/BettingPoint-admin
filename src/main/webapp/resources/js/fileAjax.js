@@ -25,12 +25,6 @@
 			success: function(response) {
 				console.log("업로드된 파일 URL 목록:", response);
 			    alert("업로드 성공!");
-			
-			    // 첫 번째 이미지 보여주기
-			    if (response.length > 0) {
-			        document.getElementById("preview").innerHTML =
-			            `<img src="${response[0]}" style="max-width: 200px;">`;
-			    }
 			},
 			error: function(xhr, status, error) {
 				alert("업로드 실패: " + error);

@@ -2,6 +2,8 @@ package com.bettopia.admin.model.aws;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -28,8 +30,11 @@ public class S3FileService {
 	public String uploadFile(MultipartFile file, String dirName) {
 		if (file.isEmpty())
 			return null;
-		String originalName = file.getOriginalFilename();
+//		String originalName = file.getOriginalFilename();
+		String originalName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8);
+		
 		String extension = originalName.substring(originalName.lastIndexOf("."));
+		
 		// 폴더 경로/파일명 형태로 지정(폴더 없으면 그냥 파일명만)
 	    String key = (dirName != null && !dirName.isEmpty() ? dirName + "/" : "") 
 	    						+ UUID.randomUUID() 
