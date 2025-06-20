@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,8 +19,9 @@ public class S3FileService {
 	@Autowired
 	AmazonS3Client amazonS3; // 앞서 설정한 AmazonS3 빈 주입
 
-	@Value("${AMAZONPROPERTIES_BUCKETNAME}")
-	private String bucketName;
+	@Autowired
+    @Qualifier("s3BucketName")
+    private String bucketName;
 
 	// 단일 파일 업로드
 	public String uploadFile(MultipartFile file, String dirName) {
