@@ -69,7 +69,7 @@
                 </div>
                 </a>
 				
-				<a href="${cpath}/bettube">
+				<a href="${cpath}/contents">
                 <div class="management-card">
                     <div class="icon purple">🖼️</div>
                     <h3>콘텐츠 관리</h3>
