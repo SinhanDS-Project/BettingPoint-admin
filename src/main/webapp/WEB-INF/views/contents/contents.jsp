@@ -24,7 +24,7 @@
 	<div class="contents">
 		<div class="page-header">
             <h1>관리자 대시보드</h1>
-            <p>모든 관리 기능을 한눈에 확인하고 관리하세요</p>
+            <p>콘텐츠 관리 페이지입니다.</p>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
 			<div>
