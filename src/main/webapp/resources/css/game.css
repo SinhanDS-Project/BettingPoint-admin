@@ -8,35 +8,50 @@ body {
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	background-color: #f5f5f5;
 	line-height: 1.6;
+	padding: 20px;
 }
 
 .container {
 	max-width: 1200px;
 	margin: 0 auto;
-	padding: 20px;
+}
+
+.game-admin {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 40px 20px;
 }
 
 .page-header {
 	text-align: center;
-	margin: 20px auto 40px auto;
+	margin-bottom: 40px;
 	padding: 40px 20px;
 	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 	color: white;
 	border-radius: 15px;
 	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-	max-width: 800px;
 }
 
-.page-header h2 {
-	font-size: 3rem;
-	margin-bottom: 15px;
-	font-weight: 700;
+.page-header {
+	text-align: center;
+	margin-bottom: 40px;
+	padding: 40px 20px;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+	border-radius: 15px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.page-header p {
-	font-size: 1.2rem;
-	opacity: 0.9;
-}
+  .page-header h1 {
+           font-size: 3rem;
+           margin-bottom: 15px;
+           font-weight: 700;
+       }
+
+       .page-header p {
+           font-size: 1.2rem;
+           opacity: 0.9;
+       }
 
 /* 카드 스타일 */
 .card {
@@ -65,11 +80,11 @@ body {
 	background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
 	padding: 25px;
 	border-radius: 12px;
-	margin: 0 auto 30px auto;
+	margin-bottom: 30px;
 	border: 1px solid #e2e8f0;
-	max-width: 800px;
 }
 
+}
 .form-section h3 {
 	color: #2d3748;
 	margin-bottom: 25px;
@@ -224,12 +239,16 @@ body {
 .game-card p strong {
 	color: #4a5568;
 	font-weight: 600;
+	
 }
 
 .game-actions {
 	margin-top: 15px;
 	display: flex;
 	gap: 10px;
+	margin-left: 40px;
+	margin-right: 40px;
+	
 }
 
 /* 배지 스타일 */
@@ -245,37 +264,37 @@ body {
 	color: white;
 }
 
-.badge.individual {
+.badge.SINGLE {
 	background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
 }
 
-.badge.group {
+.badge.GROUP {
 	background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%);
 }
 
 /* 난이도별 색상 */
-.difficulty-high {
+.difficulty-HARD {
 	color: #e53e3e;
 	font-weight: 700;
 }
 
-.difficulty-middle {
+.difficulty-MEDIUM {
 	color: #dd6b20;
 	font-weight: 700;
 }
 
-.difficulty-low {
+.difficulty-EASY {
 	color: #48bb78;
 	font-weight: 700;
 }
 
 /* 상태 아이콘 */
-.status-active {
+.status-ACTIVE {
 	color: #48bb78;
 	font-weight: 600;
 }
 
-.status-developing {
+.status-INACTIVE {
 	color: #dd6b20;
 	font-weight: 600;
 }
