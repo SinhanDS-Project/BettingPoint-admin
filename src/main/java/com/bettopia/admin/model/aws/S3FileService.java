@@ -27,18 +27,15 @@ public class S3FileService {
     private String bucketName;
 
 	// 단일 파일 업로드
-	public String uploadFile(MultipartFile file, String dirName) {
-		if (file.isEmpty())
-			return null;
-//		String originalName = file.getOriginalFilename();
-		String originalName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8);
+	public String uploadFile(MultipartFile file) {
+		if (file.isEmpty()) return null;
 		
+		// 파일 이름, 확장자
+		String originalName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8);
 		String extension = originalName.substring(originalName.lastIndexOf("."));
 		
-		// 폴더 경로/파일명 형태로 지정(폴더 없으면 그냥 파일명만)
-	    String key = (dirName != null && !dirName.isEmpty() ? dirName + "/" : "") 
-	    						+ UUID.randomUUID() 
-	    						+ extension;
+		// 파일명: UUID + 확장자 형태로 지정
+	    String key = UUID.randomUUID() + extension;
 
 		try (InputStream is = file.getInputStream()) {
 			
@@ -49,6 +46,7 @@ public class S3FileService {
 			
 			// S3에 파일 업로드
 			amazonS3.putObject(bucketName, key, is, metadata);
+			System.out.println("Uploaded S3 key: " + key);
 		} catch (IOException e) {
 			throw new RuntimeException("S3 파일 업로드 실패", e);
 		}
@@ -56,10 +54,10 @@ public class S3FileService {
 	}
 
 	// 다중 파일 업로드
-	public List<String> uploadFiles(MultipartFile[] files, String dirName) {
+	public List<String> uploadFiles(MultipartFile[] files) {
 		List<String> uploadedKeys = new ArrayList<>();
 		for (MultipartFile file : files) {
-			String key = uploadFile(file, dirName);
+			String key = uploadFile(file);
 			if (key != null) {
 				uploadedKeys.add(key);
 			}
