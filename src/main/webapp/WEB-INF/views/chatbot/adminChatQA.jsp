@@ -44,9 +44,11 @@
                         <label for="qnaCategory">카테고리</label>
                         <select id="qnaCategory" required>
                             <option value="">카테고리 선택</option>
-                            <option value="game">게임</option>
-                            <option value="point">포인트</option>
-                            <option value="etc">기타</option>
+		                    <option value="게임-게임정보">게임 - 게임정보</option>
+		                    <option value="게임-게임룰">게임 - 게임룰</option>
+		                    <option value="포인트-포인트">포인트 - 포인트</option>
+		                    <option value="기타-계정/회원">기타 - 계정/회원</option>
+		                    <option value="기타-기술 및 시스템">기타 - 기술 및 시스템</option>
                         </select>
                     </div>
                 </div>
