@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bpoint.game">
+
+	<!-- 게임 생성 -->
+	<insert id="insert" parameterType="gameDTO">
+		insert into game(uid, name,
+		type, description, level, probability, reward,
+		status)
+		values(#{uid},
+		#{name}, #{type}, #{description}, #{level}, #{probability},
+		#{reward},
+		#{status})
+	</insert>
+
+	<!-- 게임 수정 -->
+	<update id="update" parameterType="gameDTO">
+		update game set
+		name = #{name},
+		type = #{type},
+		description = #{description},
+		level = #{level},
+		probability = #{probability},
+		reward = #{reward},
+		status = #{status}
+		where uid = #{uid}
+	</update>
+	<!-- 게임 삭제 -->
+	<delete id="delete" parameterType="gameDTO">
+		delete from game where uid =
+		#{uid}
+	</delete>
+
+	<select id="selectAll" resultType="gameDTO">
+		SELECT * FROM game ORDER BY name ASC
+	</select>
+</mapper>
