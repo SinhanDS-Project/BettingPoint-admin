@@ -1,11 +1,11 @@
 	
 	// 페이지 로드 시 초기화
     document.addEventListener('DOMContentLoaded', function() {
-    	loadQnaList(1);
+    	loadBannerList(1);
         setupDragAndDrop();
     });
     
-    function loadQnaList(page = 1) {
+    function loadBannerList(page = 1) {
 	    $.ajax({
 	        url: `${cpath}/api/banner/allBanner`,
 	        type: 'GET',
@@ -27,14 +27,14 @@
 	                item.innerHTML = `
 	                    <img src="${banner.image_path}" alt="${banner.title}">
 	                    <h4>${banner.title}</h4>
-	                    <p>${banner.description || '설명이 없습니다.'}</p>
+	                    <p>${banner.description}</p>
 	                    <div class="meta">
-	                        <span>위치: ${banner.position || '미지정'}</span>
-	                        <span>조회: ${banner.views || 0}회</span>
+	                        <span>위치: 미지정</span>
+	                        <span>조회: 0회</span>
 	                    </div>
 	                    <a href="${banner.banner_link_url}" class="link-preview" target="_blank">${banner.banner_link_url}</a>
 	                    <div class="actions">
-	                        <button class="btn btn-warning" onclick="editBanner(${banner.uid})">수정</button>
+	                        <button class="btn btn-warning" onclick="editBanner(this, '${banner.uid}')">수정</button>
 	                        <button class="btn btn-danger" onclick="deleteBanner(${banner.uid})">삭제</button>
 	                        <button class="btn btn-success" onclick="toggleBannerStatus(${banner.uid})">${banner.status === 'ACTIVE' ? '비활성화' : '활성화'}</button>
 	                    </div>
@@ -48,9 +48,6 @@
 	    });
 	}
 
-
-    
-	
 	// 탭 전환 함수
     function showTab(tabName) {
         // 모든 탭 버튼과 콘텐츠 비활성화
@@ -138,7 +135,7 @@
     }
     
     
-    // 폼 등록 함수
+    // 폼 등록 함수(insert)
     function submitBannerForm() {
 	    const fileInput = document.getElementById("bannerImage");
 	    const file = fileInput.files[0];
@@ -189,6 +186,49 @@
     	submitBannerForm();
     });
 
+	// 배너/영상 관리 함수들
+    function editBanner(btnRef, uid) {
+    	const bannerItem = btnRef.closest('.content-item');
+    	
+    	const oldTitle = bannerItem.querySelector('h4').innerText.trim();
+	    const oldDescription = bannerItem.querySelector('p').innerText.trim();
+	    const oldUrl = bannerItem.querySelector('.link-preview').innerText.trim();
+		const oldImagePath = bannerItem.querySelector('img').getAttribute('src');
+	
+	    const newTitle = prompt("새로운 제목을 입력하세요:", oldTitle);
+	    const newDescription = prompt("새로운 설명을 입력하세요:", oldDescription);
+	    const newUrl = prompt("새로운 링크를 입력하세요:", oldUrl);
+    	
+    	if (newTitle && newUrl) {
+			const data = {
+			    uid: uid,
+			    title: newTitle,
+			    description: newDescription,
+			    banner_link_url: newUrl,
+			    image_path: oldImagePath
+			};
+			
+			const cpath = "/admin";
+			
+			$.ajax({
+			    url: `${cpath}/api/banner/updateBanner`,
+			    method: "PUT",
+			    contentType: "application/json",
+			    data: JSON.stringify(data),
+			    success: function (res) {
+			        alert(res);
+			        loadBannerList(1);
+			    },
+			    error: function (xhr) {
+			        alert("배너 수정 실패: " + xhr.statusText);
+			    }
+			});
+    }
+    
+    }
+
+
+
     // 유튜브 ID 추출 함수
     function extractYouTubeId(url) {
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -208,21 +248,12 @@
         return categories[category] || category;
     }
 
-    // 통계 업데이트 함수
-    function updateBannerCount() {
-        const count = document.querySelectorAll('#bannerList .content-item').length;
-        document.getElementById('bannerCount').textContent = count;
-    }
-
     function updateVideoCount() {
         const count = document.querySelectorAll('#videoList .content-item').length;
         document.getElementById('videoCount').textContent = count;
     }
 
-    // 배너/영상 관리 함수들
-    function editBanner(id) {
-        alert(`배너 ${id} 수정 기능입니다. 실제로는 수정 폼이 표시됩니다.`);
-    }
+   
 
     function deleteBanner(id) {
         if (confirm('정말로 이 배너를 삭제하시겠습니까?')) {
