@@ -1,8 +1,55 @@
 	
 	// 페이지 로드 시 초기화
     document.addEventListener('DOMContentLoaded', function() {
+    	loadQnaList(1);
         setupDragAndDrop();
     });
+    
+    function loadQnaList(page = 1) {
+	    $.ajax({
+	        url: `${cpath}/api/banner/allBanner`,
+	        type: 'GET',
+	        success: function(res) {
+	            const bannerData = res.data;
+	            
+	            if (!Array.isArray(bannerData)) {
+			        console.error("배너 데이터가 배열이 아닙니다:", bannerData);
+			        return;
+			    }
+	            
+	            const bannerListDiv = document.getElementById('bannerList');
+	            bannerListDiv.innerHTML = ""; // 기존 내용 비우기
+	
+	            bannerData.forEach(banner => {
+	                const item = document.createElement('div');
+	                item.className = 'content-item';
+	
+	                item.innerHTML = `
+	                    <img src="${banner.image_path}" alt="${banner.title}">
+	                    <h4>${banner.title}</h4>
+	                    <p>${banner.description || '설명이 없습니다.'}</p>
+	                    <div class="meta">
+	                        <span>위치: ${banner.position || '미지정'}</span>
+	                        <span>조회: ${banner.views || 0}회</span>
+	                    </div>
+	                    <a href="${banner.banner_link_url}" class="link-preview" target="_blank">${banner.banner_link_url}</a>
+	                    <div class="actions">
+	                        <button class="btn btn-warning" onclick="editBanner(${banner.uid})">수정</button>
+	                        <button class="btn btn-danger" onclick="deleteBanner(${banner.uid})">삭제</button>
+	                        <button class="btn btn-success" onclick="toggleBannerStatus(${banner.uid})">${banner.status === 'ACTIVE' ? '비활성화' : '활성화'}</button>
+	                    </div>
+	                `;
+	                bannerListDiv.appendChild(item);
+	            });
+	        },
+	        error: function(xhr) {
+	            alert("배너 목록 불러오기 실패");
+	        }
+	    });
+	}
+
+
+    
 	
 	// 탭 전환 함수
     function showTab(tabName) {
@@ -89,96 +136,57 @@
         document.getElementById('bannerPreview').innerHTML = '';
         document.getElementById('bannerImage').value = '';
     }
+    
+    
+    // 폼 등록 함수
+    function submitBannerForm() {
+	    const fileInput = document.getElementById("bannerImage");
+	    const file = fileInput.files[0];
+	
+	    if (!file) {
+	        alert("이미지를 선택해주세요.");
+	        return;
+	    }
+	
+	    if (file.size > 5 * 1024 * 1024) {
+	        alert("파일 크기는 5MB를 초과할 수 없습니다.");
+	        return;
+	    }
+	
+	    const bannerData = {
+	        title: document.getElementById('bannerTitle').value,
+	        banner_link_url: document.getElementById('bannerUrl').value,
+	        description: document.getElementById('bannerDescription').value
+	    };
+	
+	    const formData = new FormData();
+	    formData.append("banner", new Blob([JSON.stringify(bannerData)], { type: "application/json" }));
+	    formData.append("file", file);  
+		
+	    $.ajax({
+	        type: 'POST',
+	        url: `${cpath}/api/banner/insertBanner`,
+	        data: formData,
+	        enctype: 'multipart/form-data',
+	        processData: false,
+	        contentType: false,
+	        success: function (res) {
+	            alert(res);
+	            document.getElementById('bannerForm').reset();
+	            removePreview();
+	        },
+	        error: function (xhr) {
+	            alert("등록 실패: " + xhr.statusText);
+	        }
+	    });
+	}
+    
 
     // 배너 등록 폼 제출
     document.getElementById('bannerForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const title = document.getElementById('bannerTitle').value;
-        //const position = document.getElementById('bannerPosition').value;
-        const url = document.getElementById('bannerUrl').value;
-        const description = document.getElementById('bannerDescription').value;
-        
-        if (title && url) {
-            // 새로운 배너 아이템 생성
-            const bannerList = document.getElementById('bannerList');
-            const newBanner = document.createElement('div');
-            newBanner.className = 'content-item';
-            newBanner.innerHTML = `
-                <img src="https://bettopia-bucket.s3.ap-southeast-2.amazonaws.com/activity.jpg" alt="${title}">
-                <h4>${title}</h4>
-                <p>${description || '배너 설명이 없습니다.'}</p>
-                <div class="meta">
-                    <span>위치: 메인 상단</span>
-                    <span>조회: 0회</span>
-                </div>
-                //${url ? `<a href="${url}" class="link-preview" target="_blank">${url}</a>` : ''}
-                <div class="actions">
-                    <button class="btn btn-warning" onclick="editBanner(${Date.now()})">수정</button>
-                    <button class="btn btn-danger" onclick="deleteBanner(${Date.now()})">삭제</button>
-                    <button class="btn btn-success" onclick="toggleBannerStatus(${Date.now()})">활성화</button>
-                </div>
-            `;
-            
-            //bannerList.appendChild(newBanner);
-            
-            // 통계 업데이트
-            //updateBannerCount();
-            
-            // 폼 초기화
-            document.getElementById('bannerForm').reset();
-            removePreview();
-            
-            alert('배너가 성공적으로 등록되었습니다!');
-        }
-    });
-
-    // 유튜브 영상 등록 폼 제출
-    document.getElementById('videoForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const title = document.getElementById('videoTitle').value;
-        const url = document.getElementById('videoUrl').value;
-        const description = document.getElementById('videoDescription').value;
-        const category = document.getElementById('videoCategory').value;
-        
-        if (title && url && description && category) {
-            const videoId = extractYouTubeId(url);
-            if (videoId) {
-                // 새로운 영상 아이템 생성
-                const videoList = document.getElementById('videoList');
-                const newVideo = document.createElement('div');
-                newVideo.className = 'content-item';
-                newVideo.innerHTML = `
-                    <iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
-                    <h4>${title}</h4>
-                    <p>${description}</p>
-                    <div class="meta">
-                        <span>카테고리: ${getCategoryName(category)}</span>
-                        <span>조회: 0회</span>
-                    </div>
-                    유튜브에서 보기
-                    /* <a href="${url}" class="link-preview" target="_blank">유튜브에서 보기</a> */
-                    <div class="actions">
-                        <button class="btn btn-warning" onclick="editVideo(${Date.now()})">수정</button>
-                        <button class="btn btn-danger" onclick="deleteVideo(${Date.now()})">삭제</button>
-                        <button class="btn btn-success" onclick="toggleVideoStatus(${Date.now()})">활성화</button>
-                    </div>
-                `;
-                
-                videoList.appendChild(newVideo);
-                
-                // 통계 업데이트
-                updateVideoCount();
-                
-                // 폼 초기화
-                document.getElementById('videoForm').reset();
-                
-                alert('영상이 성공적으로 등록되었습니다!');
-            } else {
-                alert('올바른 유튜브 URL을 입력해주세요.');
-            }
-        }
+    	e.preventDefault();
+    	
+    	submitBannerForm();
     });
 
     // 유튜브 ID 추출 함수
@@ -243,29 +251,6 @@
     }
 
     // 미리보기 함수들
-    function previewBanner() {
-        const title = document.getElementById('bannerTitle').value;
-        const description = document.getElementById('bannerDescription').value;
-        const url = document.getElementById('bannerUrl').value;
-        
-        if (!title) {
-            alert('배너 제목을 입력해주세요.');
-            return;
-        }
-        
-        const previewContent = document.getElementById('previewContent');
-        previewContent.innerHTML = `
-            <div style="text-align: center;">
-                //<img src="https://via.placeholder.com/600x300/667eea/ffffff?text=${encodeURIComponent(title)}" alt="${title}" style="max-width: 100%; border-radius: 10px; margin-bottom: 20px;">
-                <h3>${title}</h3>
-                <p>${description || '배너 설명이 없습니다.'}</p>
-                //${url ? `<p><strong>링크:</strong> <a href="${url}" target="_blank">${url}</a></p>` : ''}
-            </div>
-        `;
-        
-        document.getElementById('previewModal').style.display = 'block';
-    }
-
     function previewVideo() {
         const title = document.getElementById('videoTitle').value;
         const url = document.getElementById('videoUrl').value;
