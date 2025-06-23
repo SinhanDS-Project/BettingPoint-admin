@@ -33,9 +33,9 @@ public class ChatRestController {
     }
 
     @GetMapping(value="/questionByCate", produces = "application/json;charset=UTF-8")
-    public List<ChatQADTO> getQuestionByCate(@RequestParam("category") String category){
-    	System.out.println("💡 전달받은 카테고리: [" + category + "]");
-        List<ChatQADTO> list = chatService.selectByCate(category.trim());
+    public List<ChatQADTO> getQuestionByCate(@RequestParam("main_category") String main_category){
+    	System.out.println("💡 전달받은 카테고리: [" + main_category + "]");
+        List<ChatQADTO> list = chatService.selectByCate(main_category.trim());
         System.out.println("💬 결과 개수: " + list.size());
 
     	return list;

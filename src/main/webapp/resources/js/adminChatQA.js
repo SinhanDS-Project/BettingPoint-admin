@@ -29,7 +29,9 @@
 	            <h4>Q: ${q.question_text}</h4>
 	            <div class="answer"><strong>A:</strong> ${q.answer_text}</div>
 	            <div class="meta">
-	                <span class="badge badge-outline">${getCategoryName(q.category)}</span>
+	                <span class="badge badge-outline">
+	                	${getCategoryName(q.main_category + '-' + q.sub_category)}
+                	</span>
 	            </div>
 	            <button class="btn btn-warning" onclick="updateQA(this, '${q.uid}')">
 	                <img src="${cpath}/resources/images/edit.png" width="15" height="15">  수정
@@ -73,23 +75,32 @@
 	}
 
 	
-	function getCategoryName(category) {
-	    const categories = {
-	        'game': '게임',
-	        'point': '포인트',
-	        'etc': '기타'
+	function getCategoryName(combinedCategory) {
+	    const categoryMap = {
+	        "게임-게임정보": "게임 - 게임정보",
+	        "게임-게임룰": "게임 - 게임룰",
+	        "포인트-포인트": "포인트 - 포인트",
+	        "기타-계정/회원": "기타 - 계정/회원",
+	        "기타-기술 및 시스템": "기타 - 기술 및 시스템"
 	    };
-	    return categories[category] || category;
+	
+	    return categoryMap[combinedCategory] || combinedCategory;
 	}
+
+
 	
 	function insertQA() {
+		const categoryValue = $("#qnaCategory").val(); // 예: "게임-게임정보"
+    	const [main_category, sub_category] = categoryValue.split("-");
+	
 	    const data = {
-	        category: $("#qnaCategory").val(),
+	        main_category,
+	        sub_category,
 	        question_text: $("#qnaQuestion").val(),
 	        answer_text: $("#qnaAnswer").val()
     	};
     
-	    if (!data.category || !data.question_text || !data.answer_text) {
+	    if (!data.main_category || !data.sub_category || !data.question_text || !data.answer_text) {
 	        alert("모든 항목을 입력해주세요.");
 	        return;
 	    }
@@ -119,25 +130,30 @@
 		
 	    const oldQuestion = qnaItem.querySelector('h4').innerText.replace("Q: ", "").trim();
 	    const oldAnswer = qnaItem.querySelector('.answer').innerText.replace("A:", "").trim();
-	    const oldCategory = qnaItem.querySelector('.badge').innerText.trim();
+	    const oldCategory = qnaItem.querySelector('.badge').innerText.trim(); // ex: "게임-게임정보"
 		
 		const newQuestion = prompt("새로운 질문을 입력하세요:", oldQuestion);
     	const newAnswer = prompt("새로운 답변을 입력하세요:", oldAnswer);
     	
-    	const categoryMap = {
-	        "게임": "game",
-	        "포인트": "point",
-	        "기타": "etc"
-	    };
-	    const category = categoryMap[oldCategory]; // 한글 → DB 컬럼값
+    	const categoryOptions = [
+	        "게임-게임정보",
+	        "게임-게임룰",
+	        "포인트-포인트",
+	        "기타-계정/회원",
+	        "기타-기술 및 시스템"
+	    ];
 		
-		if (newQuestion && newAnswer) {
+		if (newQuestion && newAnswer && categoryOptions.includes(oldCategory)) {
+			const [main_category, sub_category] = currentCombined.split("-");
+			
 	        const cpath = "/admin";
 	        const data = {
 	            uid: uid,
+	            main_category: main_category,
+	            sub_category: sub_category,
 	            question_text: newQuestion,
 	            answer_text: newAnswer,
-	            category: category
+	            
 	        };
 	
 	        $.ajax({

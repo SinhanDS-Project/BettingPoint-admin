@@ -6,24 +6,26 @@
 <mapper namespace="com.bpoint.chat">
 	
 	<select id="selectAll" resultType="chatDTO">
-		SELECT * FROM chatbot_qa order by category desc;
+		SELECT * FROM chatbot_qa order by main_category desc;
 	</select> 
 
-	<select id="questiontByCate" parameterType="String" resultType="chatDTO">
+	<select id="questiontByMainCate" parameterType="String" resultType="chatDTO">
 		SELECT * 
 		FROM chatbot_qa
-    	WHERE TRIM(category) = #{category}
+    	WHERE TRIM(main_category) = #{main_category}
 	</select> 
 	
 	<insert id="insert" parameterType="chatDTO">
 		insert into 
-			chatbot_qa (uid, question_text, answer_text, category)
-			values(#{uid}, #{question_text}, #{answer_text}, #{category})
+			chatbot_qa (uid, main_category, sub_category, question_text, answer_text)
+			values(#{uid},#{main_category}, #{sub_category}, #{question_text}, #{answer_text})
 	</insert>
 	
 	<update id="update" parameterType="chatDTO">
 		update chatbot_qa
-		set question_text=#{question_text}, 
+		set main_category=#{main_category},
+			sub_category=#{sub_category},
+			question_text=#{question_text}, 
 			answer_text=#{answer_text}, 
 			category=#{category}
 		where uid=#{uid}
