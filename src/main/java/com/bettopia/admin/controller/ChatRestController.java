@@ -34,18 +34,14 @@ public class ChatRestController {
 
     @GetMapping(value="/questionByCate", produces = "application/json;charset=UTF-8")
     public List<ChatQADTO> getQuestionByCate(@RequestParam("main_category") String main_category){
-    	System.out.println("💡 전달받은 카테고리: [" + main_category + "]");
         List<ChatQADTO> list = chatService.selectByCate(main_category.trim());
-        System.out.println("💬 결과 개수: " + list.size());
-
     	return list;
     }
     
     @PostMapping(value="/insertqa", produces = "text/plain;charset=utf-8", 
 			consumes = MediaType.APPLICATION_JSON_VALUE)
     public String insertQA(@RequestBody ChatQADTO chatQA) {
-    	chatQA.setUid(UUID.randomUUID().toString().replace("-", ""));		
-    	System.out.println(chatQA.toString());
+    	chatQA.setUid(UUID.randomUUID().toString().replace("-", ""));	
     	int result = chatService.insertQA(chatQA);
     	return result>0?"질문 등록이 완료되었습니다.":"질문 등록에 실패하였습니다.";
     }
@@ -53,14 +49,12 @@ public class ChatRestController {
     @PutMapping(value="/updateqa", produces = "text/plain;charset=utf-8", 
     		consumes = MediaType.APPLICATION_JSON_VALUE)
     public String updateQA(@RequestBody ChatQADTO chatQA) {
-    	System.out.println(chatQA.toString());
     	int result = chatService.updateQA(chatQA);
     	return result>0?"수정에 성공하였습니다.":"수정에 실패하였습니다.";
     }
     
     @DeleteMapping(value="/deleteqa/{uid}", produces = "text/plain;charset=utf-8")
     public String deleteQA(@PathVariable("uid") String uid) {
-    	System.out.println("uid: " + uid);
     	int result = chatService.deleteQA(uid);
     	return result>0?"삭제 성공하였습니다.":"삭제 실패하였습니다.";
     }

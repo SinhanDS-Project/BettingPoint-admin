@@ -275,4 +275,187 @@
 	    font-weight: bold;
 	}
 	
+	/* 모달 스타일 */
+	.modal {
+		display: none;
+		position: fixed;
+		z-index: 1000;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		animation: modalFadeIn 0.3s ease-out;
+	}
 	
+		
+	@
+	keyframes modalFadeIn {from { opacity:0;
+		
+	}
+	
+	to {
+		opacity: 1;
+	}
+	
+	}
+	#editQnaModal.modal {
+		position: fixed;
+		z-index: 9999;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+	
+	.modal-content {
+		background: white;
+		margin: 3% auto;
+		padding: 0;
+		border-radius: 15px;
+		width: 90%;
+		max-width: 800px;
+		max-height: 90vh;
+		overflow: hidden;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+		border: 1px solid #e2e8f0;
+		animation: modalSlideIn 0.3s ease-out;
+		position: relative;
+	}
+	
+	/* 기존 카드 스타일과 동일한 상단 그라데이션 라인 */
+	.modal-content::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 4px;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		z-index: 1;
+	}
+	
+	@
+	keyframes modalSlideIn {from { opacity:0;
+		transform: translateY(-30px) scale(0.95);
+	}
+	
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+	
+	}
+	.modal-header {
+		background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+		color: #2d3748;
+		padding: 30px 30px 25px 30px;
+		border-radius: 15px 15px 0 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: 3px solid #667eea;
+		margin-top: 4px; /* 상단 그라데이션 라인 공간 */
+	}
+	
+	.modal-header h3 {
+		margin: 0;
+		font-size: 1.8rem;
+		font-weight: 600;
+		color: #2d3748;
+	}
+	
+	.close {
+		color: #718096;
+		font-size: 28px;
+		font-weight: bold;
+		cursor: pointer;
+		line-height: 1;
+		transition: all 0.3s ease;
+		padding: 5px;
+		border-radius: 50%;
+		width: 40px;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: transparent;
+	}
+	
+	.close:hover {
+		background: rgba(102, 126, 234, 0.1);
+		color: #667eea;
+		transform: scale(1.1);
+	}
+	
+	.modal-body {
+		padding: 30px;
+		background: white;
+		max-height: calc(90vh - 200px);
+		overflow-y: auto;
+	}
+	
+	/* 모달 내부 폼 스타일 조정 */
+	.modal-body .form-group {
+		margin-bottom: 20px;
+	}
+	
+	.modal-body .form-group label {
+		display: block;
+		margin-bottom: 8px;
+		font-weight: 600;
+		color: #4a5568;
+		font-size: 0.95rem;
+	}
+	
+	.modal-body .form-group input, .modal-body .form-group textarea,
+		.modal-body .form-group select {
+		width: 100%;
+		padding: 12px 16px;
+		border: 2px solid #e2e8f0;
+		border-radius: 8px;
+		font-size: 14px;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		transition: all 0.3s ease;
+		background: white;
+		box-sizing: border-box;
+	}
+	
+	.modal-body .form-group input:focus, .modal-body .form-group textarea:focus,
+		.modal-body .form-group select:focus {
+		outline: none;
+		border-color: #667eea;
+		box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+	}
+	
+	/* 모달 내부 폼 로우 스타일 */
+	.modal-body .form-row {
+		display: flex;
+		gap: 20px;
+		margin-bottom: 20px;
+	}
+	
+	.modal-body .form-row .form-group {
+		flex: 1;
+		margin-bottom: 0;
+	}
+	
+	/* 모달 내부 텍스트에리어 크기 조정 */
+	.modal-body .form-group textarea {
+		min-height: 100px;
+		resize: vertical;
+	}
+	
+	.modal-footer {
+		padding: 20px 30px 30px 30px;
+		background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+		border-top: 1px solid #e2e8f0;
+		display: flex;
+		justify-content: flex-end;
+		gap: 15px;
+		border-radius: 0 0 15px 15px;
+	}
+		
+		
+		
