@@ -132,7 +132,7 @@ function fetchGameList() {
             </h4>
             <p><strong>난이도:</strong>
               <span class="difficulty-${game.level}">
-                ${game.level === 'HARD' ? '상' : game.level === 'MEDIUM' ? '중' : '하'}
+                ${game.level === 'HARD' ? '상' : game.level === 'NORMAL' ? '중' : '하'}
               </span>
             </p>
             <p><strong>성공 확률:</strong> <span class="probability-value">${game.probability}%</span></p>
