@@ -8,6 +8,7 @@
 	<select id="selectAll" resultType="bannerDTO">
 		SELECT * 
 		FROM banner
+		order by title
 	</select> 
 	
 	<insert id="insert" parameterType="bannerDTO">

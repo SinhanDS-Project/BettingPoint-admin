@@ -7,7 +7,9 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,12 +58,21 @@ public class BannerRestController {
 	}
 	
 	@PutMapping(value="/updateBanner", 
-			produces = "text/plain;charset=utf-8", 
+			produces = MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8", 
     		consumes = MediaType.APPLICATION_JSON_VALUE)
     public String updateBanner(@RequestBody BannerDTO banner) {
-    	System.out.println(banner.toString());
     	int result = bannerService.updateBanner(banner);
     	return result>0?"배너 수정에 성공하였습니다.":"배너 수정에 실패하였습니다.";
+    }
+	
+	@DeleteMapping(value="/deleteBanner", 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8")
+    public String deleteBanner(@RequestBody BannerDTO banner) {
+		s3FileService.deleteObject(banner.getImage_path());
+		
+    	int result = bannerService.deleteBanner(banner.getUid());
+    	return result>0?"삭제 성공하였습니다.":"삭제 실패하였습니다.";
     }
 	
 }

@@ -31,8 +31,7 @@
 	                    <a href="${banner.banner_link_url}" class="link-preview" target="_blank">${banner.banner_link_url}</a>
 	                    <div class="actions">
 	                        <button class="btn btn-warning" onclick="editBanner(this, '${banner.uid}')">수정</button>
-	                        <button class="btn btn-danger" onclick="deleteBanner(${banner.uid})">삭제</button>
-	                        <button class="btn btn-success" onclick="toggleBannerStatus(${banner.uid})">${banner.status === 'ACTIVE' ? '비활성화' : '활성화'}</button>
+	                        <button class="btn btn-danger" onclick="deleteBanner('${banner.image_path}', '${banner.uid}')">삭제</button>
 	                    </div>
 	                `;
 	                bannerListDiv.appendChild(item);
@@ -165,6 +164,7 @@
 	        contentType: false,
 	        success: function (res) {
 	            alert(res);
+	            loadBannerList();
 	            document.getElementById('bannerForm').reset();
 	            removePreview();
 	        },
@@ -173,7 +173,6 @@
 	        }
 	    });
 	}
-    
 
     // 배너 등록 폼 제출
     document.getElementById('bannerForm').addEventListener('submit', function(e) {
@@ -183,13 +182,14 @@
     });
 
 	// 배너/영상 관리 함수들
-    function editBanner(btnRef, uid) {
+    function editBanner(btnRef, uid) { // update
     	const bannerItem = btnRef.closest('.content-item');
     	
     	const oldTitle = bannerItem.querySelector('h4').innerText.trim();
 	    const oldDescription = bannerItem.querySelector('p').innerText.trim();
 	    const oldUrl = bannerItem.querySelector('.link-preview').innerText.trim();
-		const oldImagePath = bannerItem.querySelector('img').getAttribute('src');
+		const fullUrl = bannerItem.querySelector('img').getAttribute('src');
+		const oldImagePath = fullUrl.split('/').pop();
 	
 	    const newTitle = prompt("새로운 제목을 입력하세요:", oldTitle);
 	    const newDescription = prompt("새로운 설명을 입력하세요:", oldDescription);
@@ -213,17 +213,46 @@
 			    data: JSON.stringify(data),
 			    success: function (res) {
 			        alert(res);
-			        loadBannerList(1);
+			        loadBannerList();
 			    },
 			    error: function (xhr) {
 			        alert("배너 수정 실패: " + xhr.statusText);
 			    }
 			});
-    }
+    	}
     
     }
-
-
+    
+	function deleteBanner(imagePath, uid) {
+        if (!confirm("정말 삭제하시겠습니까?")) {
+        	return;
+        }
+        
+	    const cpath = "/admin";
+	    $.ajax({
+	    	url: `${cpath}/api/banner/deleteBanner`,
+	        type: 'DELETE',
+	        contentType: 'application/json',
+	        data: JSON.stringify({
+	            uid: uid,
+	            image_path: imagePath
+	        }),
+	        success: function(res) {
+	            alert(res);
+	            loadBannerList(); // 목록 갱신
+	        },
+	        error: function(xhr) {
+	            alert("삭제 실패: " + xhr.statusText);
+	        }
+	    });
+    }
+	
+	
+	
+	
+	
+	
+	
 
     // 유튜브 ID 추출 함수
     function extractYouTubeId(url) {
@@ -247,19 +276,6 @@
     function updateVideoCount() {
         const count = document.querySelectorAll('#videoList .content-item').length;
         document.getElementById('videoCount').textContent = count;
-    }
-
-   
-
-    function deleteBanner(id) {
-        if (confirm('정말로 이 배너를 삭제하시겠습니까?')) {
-            alert('배너가 삭제되었습니다!');
-            updateBannerCount();
-        }
-    }
-
-    function toggleBannerStatus(id) {
-        alert(`배너 ${id}의 상태가 변경되었습니다.`);
     }
 
     function editVideo(id) {
