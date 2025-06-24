@@ -11,15 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class ContentsDTO {
+public class BannerDTO {
 	private String uid;
-	private String type;
 	private String title;
 	private String image_path;
-	private String video_url;
 	private String banner_link_url;
 	private String description;
-	private String status;
-	private int sort_order;
 	private Date created_at;
 }

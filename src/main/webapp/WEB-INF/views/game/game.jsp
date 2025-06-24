@@ -15,10 +15,21 @@
 <script src="${cpath}/resources/js/game.js"></script>
 </head>
 <body>
-	
+
 	<div id="game-admin" class="game-admin">
 		<div class="page-header">
-			<h2 style="margin-bottom: 10px;">🎮 게임 관리</h2>
+			<h1>관리자 대시보드</h1>
+			<p>게임 관리 기능 입니다.</p>
+		</div>
+
+		<div
+			style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+			<div>
+				<h2 style="margin-bottom: 10px;">🎮 게임 관리</h2>
+				<p style="color: #718096;">모든 게임을 관리하세요.</p>
+			</div>
+			<button class="btn btn-back" onclick="location.href='/admin'">대시보드로
+				돌아가기</button>
 		</div>
 
 		<!-- 게임 등록 폼 -->
@@ -91,7 +102,7 @@
 			<div class="game-grid"></div>
 		</div>
 	</div>
-	
+
 	<div id="editModal" class="modal" style="display: none;">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -115,7 +126,8 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="editLevel">난이도</label> <select id="editLevel" required>
+							<label for="editLevel">난이도</label> <select id="editLevel"
+								required>
 								<option value="HARD">상</option>
 								<option value="MEDIUM">중</option>
 								<option value="EASY">하</option>
@@ -135,7 +147,8 @@
 					</div>
 
 					<div class="form-group">
-						<label for="editStatus">상태</label> <select id="editStatus" required>
+						<label for="editStatus">상태</label> <select id="editStatus"
+							required>
 							<option value="ACTIVE">사용 가능</option>
 							<option value="INACTIVE">개발 중</option>
 						</select>
