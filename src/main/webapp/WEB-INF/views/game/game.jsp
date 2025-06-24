@@ -58,7 +58,7 @@
 							name="level" required>
 							<option value="">난이도 선택</option>
 							<option value="HARD">상</option>
-							<option value="MEDIUM">중</option>
+							<option value="NORMAL">중</option>
 							<option value="EASY">하</option>
 						</select>
 					</div>
@@ -129,7 +129,7 @@
 							<label for="editLevel">난이도</label> <select id="editLevel"
 								required>
 								<option value="HARD">상</option>
-								<option value="MEDIUM">중</option>
+								<option value="NORMAL">중</option>
 								<option value="EASY">하</option>
 							</select>
 						</div>
