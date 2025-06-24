@@ -23,7 +23,6 @@ public class ChatQAService {
 	}
 	
 	public int insertQA(ChatQADTO chatQA) {
-		chatQA.setUid(UUID.randomUUID().toString().replace("-", ""));
 		return chatDAO.insertQA(chatQA);
 	}
 	

@@ -1,10 +1,10 @@
 package com.bettopia.admin.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +44,7 @@ public class ChatRestController {
     @PostMapping(value="/insertqa", produces = "text/plain;charset=utf-8", 
 			consumes = MediaType.APPLICATION_JSON_VALUE)
     public String insertQA(@RequestBody ChatQADTO chatQA) {
+    	chatQA.setUid(UUID.randomUUID().toString().replace("-", ""));		
     	System.out.println(chatQA.toString());
     	int result = chatService.insertQA(chatQA);
     	return result>0?"질문 등록이 완료되었습니다.":"질문 등록에 실패하였습니다.";

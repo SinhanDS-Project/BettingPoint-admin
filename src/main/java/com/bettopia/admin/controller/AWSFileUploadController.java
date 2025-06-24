@@ -28,7 +28,7 @@ public class AWSFileUploadController {
     @PostMapping("/uploadFormSingle")
     public String uploadSingleFile(@RequestParam("file") MultipartFile file, Model model) {
         if (!file.isEmpty()) {
-            String key = s3FileService.uploadFile(file, ""); // 기본 경로에 업로드
+            String key = s3FileService.uploadFile(file); // 기본 경로에 업로드
             model.addAttribute("message", "파일 업로드 성공: " + key);
         }
         return "aws_s3/uploadResult"; // 업로드 결과를 보여줄 JSP 뷰 이름
@@ -38,7 +38,7 @@ public class AWSFileUploadController {
     @PostMapping("/uploadFormMulti")
     public String uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, Model model) {
         if (files != null && files.length > 0) {
-            List<String> keys = s3FileService.uploadFiles(files, "");
+            List<String> keys = s3FileService.uploadFiles(files);
             model.addAttribute("message", "업로드 성공 - 총 " + keys.size() + "개 파일");
             model.addAttribute("fileKeys", keys);
         }
