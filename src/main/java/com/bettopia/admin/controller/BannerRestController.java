@@ -24,10 +24,12 @@ import com.bettopia.admin.model.contents.BannerDTO;
 import com.bettopia.admin.model.contents.BannerService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/banner")
 @RequiredArgsConstructor
+@Slf4j
 public class BannerRestController {	
 	
 	final BannerService bannerService;
@@ -63,9 +65,16 @@ public class BannerRestController {
     public String updateBanner(@RequestPart("banner") BannerDTO banner,
     						   @RequestPart("file") MultipartFile file) {
 		try {
-	        // 기존 이미지 삭제
+			// 새로운 파일이 들어왔다면
 	        if (file != null && !file.isEmpty()) {
-	            s3FileService.deleteObject(banner.getImage_path());  // 기존 파일명
+	        	// 기존 이미지 경로
+	            String original = banner.getOriginal_image_path();
+	            if (original != null && !original.isBlank()) {
+	            	// 기존 이미지 S3에서 삭제
+	                s3FileService.deleteObject(original);
+	            }
+	            
+	            // 새 이미지 업로드
 	            String newFileName = s3FileService.uploadFile(file);
 	            banner.setImage_path(newFileName);
 	        }

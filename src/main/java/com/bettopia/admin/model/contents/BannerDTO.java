@@ -18,4 +18,7 @@ public class BannerDTO {
 	private String banner_link_url;
 	private String description;
 	private Date created_at;
+	
+	// 수정할 때 필요한 필드
+	private String original_image_path;
 }

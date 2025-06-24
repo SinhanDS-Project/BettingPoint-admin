@@ -60,7 +60,13 @@
     function setupDragAndDrop(dropAreaId, fileInputId, previewId) {
         const dropArea = document.getElementById(dropAreaId);
         const fileInput = document.getElementById(fileInputId);
-
+        
+        // ✅ 중복 등록 방지
+        if (fileInput.dataset.listenerAttached === 'true') {
+            return; // 이미 등록된 경우 아무 것도 하지 않음
+        }
+        fileInput.dataset.listenerAttached = 'true'; // 최초 등록 표시
+        
         // 드래그 앤 드롭 이벤트
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropArea.addEventListener(eventName, preventDefaults, false);
@@ -282,7 +288,8 @@
             title: title,
             banner_link_url: link,
             description: description,
-            image_path: imagePath // 기존 이미지 그대로 보내고, 새로 선택 시 JS에서 교체됨
+            image_path: imagePath, // 기존 이미지 그대로 보내고, 새로 선택 시 JS에서 교체됨
+            original_image_path: originalBannerImageUrl.split('/').pop()
         };
         
         formData.append("banner", new Blob([JSON.stringify(banner)], { type: "application/json" }));
