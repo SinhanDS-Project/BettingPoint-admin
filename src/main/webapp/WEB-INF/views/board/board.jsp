@@ -5,11 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 관리</title>
+<title>관리자 게시판 관리</title>
 	<link rel="stylesheet" href="${cpath}/resources/css/board.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="${cpath}/resources/js/fileAjax.js"></script>
 	<script src="${cpath}/resources/js/board.js"></script>
+	<script src="${cpath}/resources/js/fileAjax.js"></script>
 </head>
 <script>
 	var cpath = '${pageContext.request.contextPath}';
@@ -18,10 +18,14 @@
 <!-- 2. 게시판 관리 섹션 -->
 <div id="board" class="board">
 	<div class="page-header">
-		<h1>📋 게시판 관리</h1>
-		<p>공지사항과 게시글을 관리하세요.</p>
+		<h1>관리자 대시보드</h1>
+		<p>게시판 관리 기능입니다.</p>
 	</div>
 	<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+		<div>
+			<h2 style="margin-bottom: 10px;">📋 게시판 관리</h2>
+			<p style="color: #718096;">공지사항과 게시글을 관리하세요.</p>
+		</div>
 		<button class="btn btn-back" onclick="location.href='/'">대시보드로 돌아가기</button>
 	</div>
 
@@ -152,6 +156,7 @@
 		// setupDragAndDrop();
 		insertBoard();
 		loadBoardList();
+		updateBoard();
 	});
 
 	function closeEditModal() {
