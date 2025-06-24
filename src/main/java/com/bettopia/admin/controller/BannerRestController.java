@@ -47,10 +47,9 @@ public class BannerRestController {
 	
 	   banner.setUid(UUID.randomUUID().toString().replace("-", ""));
 	   
-	   // 파일 업로드
+	   // 파일 업로드 및 파일명 불러오기
 	   String imgName = s3FileService.uploadFile(file);
-	   String imgUrl = "https://bettopia-bucket.s3.ap-southeast-2.amazonaws.com/";
-	   banner.setImage_path(imgUrl + imgName);
+	   banner.setImage_path(imgName);
 	
 	   int result = bannerService.insertBanner(banner);
 	   return result > 0 ? "배너 등록이 완료되었습니다." : "배너 등록에 실패하였습니다.";

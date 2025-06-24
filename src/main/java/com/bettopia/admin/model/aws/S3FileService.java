@@ -46,7 +46,6 @@ public class S3FileService {
 			
 			// S3에 파일 업로드
 			amazonS3.putObject(bucketName, key, is, metadata);
-			System.out.println("Uploaded S3 key: " + key);
 		} catch (IOException e) {
 			throw new RuntimeException("S3 파일 업로드 실패", e);
 		}

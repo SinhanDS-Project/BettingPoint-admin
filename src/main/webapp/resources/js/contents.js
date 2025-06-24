@@ -12,20 +12,16 @@
 	        success: function(res) {
 	            const bannerData = res.data;
 	            
-	            if (!Array.isArray(bannerData)) {
-			        console.error("배너 데이터가 배열이 아닙니다:", bannerData);
-			        return;
-			    }
-	            
 	            const bannerListDiv = document.getElementById('bannerList');
+	            const s3BaseUrl = "https://bettopia-bucket.s3.ap-southeast-2.amazonaws.com/";
 	            bannerListDiv.innerHTML = ""; // 기존 내용 비우기
 	
 	            bannerData.forEach(banner => {
 	                const item = document.createElement('div');
 	                item.className = 'content-item';
-	
+
 	                item.innerHTML = `
-	                    <img src="${banner.image_path}" alt="${banner.title}">
+	                    <img src="${s3BaseUrl}${banner.image_path}" alt="${banner.title}">
 	                    <h4>${banner.title}</h4>
 	                    <p>${banner.description}</p>
 	                    <div class="meta">
