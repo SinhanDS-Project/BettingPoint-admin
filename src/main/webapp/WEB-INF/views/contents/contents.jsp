@@ -111,8 +111,67 @@
 			    <h3>등록된 배너</h3>
 			    <div class="content-grid" id="bannerList"></div>
 			</div>
-            
-        </div>
+			
+			<!-- 배너 수정 모달 -->
+			<div id="editBannerModal" class="modal" style="display: none;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3>배너 수정</h3>
+						<span class="close" onclick="closeEditBannerModal()">&times;</span>
+					</div>
+					<div class="modal-body">
+						<form id="editBannerForm">
+							<input type="hidden" id="editBannerUid" />
+
+							<div class="form-group">
+								<label for="editBannerTitle">제목</label> 
+								<input type="text" id="editBannerTitle" required />
+							</div>
+
+							<div class="form-group">
+							    <label>배너 이미지</label>
+							    <div class="drag-drop-area" id="editBannerDropArea">
+							        <div class="icon">
+							            <img src="${cpath}/resources/images/folder.png" width="100" height="100">
+							        </div>
+							        <p><strong>파일을 드래그하여 업로드하거나 클릭하여 선택하세요</strong></p>
+							        <p style="font-size: 0.9rem; color: #a0aec0; margin-top: 10px;">
+							            지원 형식: JPG, PNG, GIF (최대 5MB)<br>
+							            한 개의 이미지만 가능합니다.
+							        </p>
+							        <input type="file" id="editBannerImageFile" accept="image/*" style="display: none;">
+							    </div>
+							    <div id="editBannerPreview" style="margin-top: 15px;"></div>
+							</div>
+
+							
+							<div class="form-group">
+								<label for="editBannerLink">배너 링크 URL</label> 
+								<input type="url" id="editBannerLink" required />
+							</div>
+							
+							<div class="form-group">
+								<label for="editBannerDescription">설명</label>
+								<textarea id="editBannerDescription" required></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" form="editBannerForm" class="btn btn-primary">저장</button>
+						<button type="button" class="btn btn-secondary" onclick="closeEditBannerModal()">취소</button>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+		</div>
+		
+		
+		
 
         <!-- 유튜브 영상 탭 -->
         <!-- 

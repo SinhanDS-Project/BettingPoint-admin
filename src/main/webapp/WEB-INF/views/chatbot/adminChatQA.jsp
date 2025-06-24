@@ -107,8 +107,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="submit" form="editQnaForm" class="btn btn-primary">저장</button>
-					<button type="button" class="btn btn-secondary"
-						onclick="closeEditQnaModal()">취소</button>
+					<button type="button" class="btn btn-secondary" onclick="closeEditQnaModal()">취소</button>
 				</div>
 			</div>
 		</div>

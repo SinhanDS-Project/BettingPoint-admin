@@ -20,8 +20,7 @@
 	<!-- 생성일은 수정 X -->
 	<update id="update" parameterType="bannerDTO">
 		update banner
-		set uid=#{uid}, 
-			title=#{title}, 
+		set title=#{title}, 
 			image_path=#{image_path}, 
 			banner_link_url=#{banner_link_url}, 
 			description=#{description}

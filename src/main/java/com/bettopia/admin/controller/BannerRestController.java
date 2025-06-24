@@ -45,7 +45,7 @@ public class BannerRestController {
 	            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
 	            produces = MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8")
 	public String insertBanner(@RequestPart("banner") BannerDTO banner,
-	                          @RequestPart("file") MultipartFile file) {
+	                           @RequestPart("file") MultipartFile file) {
 	
 	   banner.setUid(UUID.randomUUID().toString().replace("-", ""));
 	   
@@ -57,12 +57,26 @@ public class BannerRestController {
 	   return result > 0 ? "배너 등록이 완료되었습니다." : "배너 등록에 실패하였습니다.";
 	}
 	
-	@PutMapping(value="/updateBanner", 
+	@PostMapping(value="/updateBanner", 
 			produces = MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8", 
-    		consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String updateBanner(@RequestBody BannerDTO banner) {
-    	int result = bannerService.updateBanner(banner);
-    	return result>0?"배너 수정에 성공하였습니다.":"배너 수정에 실패하였습니다.";
+			consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String updateBanner(@RequestPart("banner") BannerDTO banner,
+    						   @RequestPart("file") MultipartFile file) {
+		try {
+	        // 기존 이미지 삭제
+	        if (file != null && !file.isEmpty()) {
+	            s3FileService.deleteObject(banner.getImage_path());  // 기존 파일명
+	            String newFileName = s3FileService.uploadFile(file);
+	            banner.setImage_path(newFileName);
+	        }
+
+	        int result = bannerService.updateBanner(banner);
+	        return result > 0 ? "배너 수정에 성공하였습니다." : "배너 수정에 실패하였습니다.";
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "서버 오류로 인해 배너 수정에 실패하였습니다.";
+	    }
     }
 	
 	@DeleteMapping(value="/deleteBanner", 
