@@ -13,7 +13,6 @@
 	    const cpath = "${pageContext.request.contextPath}";
 	</script>
 	<script src="${cpath}/resources/js/contents.js" defer></script>
-	<script src="${cpath}/resources/js/fileAjax.js" defer></script>
 	
 	<script>
         
@@ -67,7 +66,7 @@
                 <h3>배너 등록</h3>
                 <p style="color: #718096; margin-bottom: 20px;">메인페이지에 표시될 배너를 등록합니다.</p>
                 
-                <form id="bannerForm" onsubmit="uploadViaAjax()">
+                <form id="bannerForm">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="bannerTitle">배너 제목</label>
@@ -96,26 +95,7 @@
                             <label for="bannerUrl">링크 URL</label>
                             <input type="url" id="bannerUrl" placeholder="클릭 시 이동할 URL을 입력하세요.  ex) http://localhost:9999/admin/board?id=10">
                         </div>
-                        <div class="form-group">
-                        	<!-- 배너를 클릭했을 때 연결되는 링크(URL)가 어디서 열릴지를 정하는 설정 -->
-                            <label for="bannerTarget">링크 타겟</label>
-                            <select id="bannerTarget">
-                            	<option value="_blank">새 창</option>
-                                <option value="_self">현재 창</option>
-                            </select>
-                        </div>
                     </div>
-
-                    <!-- <div class="form-row">
-                        <div class="form-group">
-                            <label for="bannerStartDate">시작일</label>
-                            <input type="date" id="bannerStartDate">
-                        </div>
-                        <div class="form-group">
-                            <label for="bannerEndDate">종료일</label>
-                            <input type="date" id="bannerEndDate">
-                        </div>
-                    </div> -->
 
                     <div class="form-group">
                         <label for="bannerDescription">배너 설명</label>
@@ -123,48 +103,15 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">배너 등록</button>
-                    <button type="button" class="btn btn-success" onclick="previewBanner()">미리보기</button>
                 </form>
             </div>
 
             <!-- 등록된 배너 -->
-            <!-- 
-            <div class="card">
-                <h3>등록된 배너</h3>
-                <div class="content-grid" id="bannerList">
-                    <div class="content-item">
-                        <img src="https://via.placeholder.com/400x200/667eea/ffffff?text=메인+배너" alt="메인 배너">
-                        <h4>메인 배너</h4>
-                        <p>메인페이지 상단에 표시되는 주요 배너입니다.</p>
-                        <div class="meta">
-                            <span>위치: 메인 상단</span>
-                            <span>조회: 1,234회</span>
-                        </div>
-                        <a href="https://example.com" class="link-preview" target="_blank">https://example.com</a>
-                        <div class="actions">
-                            <button class="btn btn-warning" onclick="editBanner(1)">수정</button>
-                            <button class="btn btn-danger" onclick="deleteBanner(1)">삭제</button>
-                            <button class="btn btn-success" onclick="toggleBannerStatus(1)">활성화</button>
-                        </div>
-                    </div>
-
-                    <div class="content-item">
-                        <img src="https://via.placeholder.com/400x200/764ba2/ffffff?text=이벤트+배너" alt="이벤트 배너">
-                        <h4>이벤트 배너</h4>
-                        <p>특별 이벤트를 홍보하는 배너입니다.</p>
-                        <div class="meta">
-                            <span>위치: 메인 중간</span>
-                            <span>조회: 567회</span>
-                        </div>
-                        <a href="https://event.com" class="link-preview" target="_blank">https://event.com</a>
-                        <div class="actions">
-                            <button class="btn btn-warning" onclick="editBanner(2)">수정</button>
-                            <button class="btn btn-danger" onclick="deleteBanner(2)">삭제</button>
-                            <button class="btn btn-success" onclick="toggleBannerStatus(2)">활성화</button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+			<div class="card">
+			    <h3>등록된 배너</h3>
+			    <div class="content-grid" id="bannerList"></div>
+			</div>
+            
         </div>
 
         <!-- 유튜브 영상 탭 -->

@@ -15,6 +15,7 @@
 		<!-- <typeAlias type="com.bettopia.game.model.chatbot.ChatBotDTO" alias="chatDTO" /> -->
 		<typeAlias type="com.bettopia.admin.model.chatbot.ChatQADTO" alias="chatDTO" />
 		<typeAlias type="com.bettopia.admin.model.game.GameDTO" alias="gameDTO" />
+		<typeAlias type="com.bettopia.admin.model.contents.BannerDTO" alias="bannerDTO" />
 		<typeAlias type="com.bettopia.admin.model.board.BoardDTO" alias="boardDTO" />
 	</typeAliases>
 </configuration>

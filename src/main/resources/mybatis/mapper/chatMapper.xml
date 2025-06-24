@@ -6,7 +6,7 @@
 <mapper namespace="com.bpoint.chat">
 	
 	<select id="selectAll" resultType="chatDTO">
-		SELECT * FROM chatbot_qa order by main_category desc;
+		SELECT * FROM chatbot_qa order by main_category desc
 	</select> 
 
 	<select id="questiontByMainCate" parameterType="String" resultType="chatDTO">

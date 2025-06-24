@@ -21,7 +21,7 @@ public class AWSFileUploadRestController {
     @PostMapping(value="/uploadAjax")
     public List<String> uploadFilesViaAjax(@RequestParam("files") MultipartFile[] files) {
         // S3에 파일들 업로드하고 S3 키 목록을 결과로 반환
-        List<String> uploadedKeys = s3FileService.uploadFiles(files, "");
+        List<String> uploadedKeys = s3FileService.uploadFiles(files);
         return uploadedKeys;
     }
 }

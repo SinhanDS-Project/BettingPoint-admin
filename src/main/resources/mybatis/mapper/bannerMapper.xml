@@ -5,14 +5,32 @@
 
 <mapper namespace="com.bpoint.banner">
 	
-	<!-- 
-	<select id="selectAll" resultType="exampleDTO">
-		select * from example order by 1
+	<select id="selectAll" resultType="bannerDTO">
+		SELECT * 
+		FROM banner
+		order by title
 	</select> 
-	-->
 	
-	<select id="selectAll" resultType="chatDTO">
-		SELECT * FROM chatbot_qa order by main_category desc;
-	</select> 
+	<insert id="insert" parameterType="bannerDTO">
+		insert into 
+			banner (uid, title, image_path, banner_link_url, description, created_at)
+			values(#{uid}, #{title}, #{image_path}, #{banner_link_url}, #{description}, now())
+	</insert>
+	
+	<!-- 생성일은 수정 X -->
+	<update id="update" parameterType="bannerDTO">
+		update banner
+		set uid=#{uid}, 
+			title=#{title}, 
+			image_path=#{image_path}, 
+			banner_link_url=#{banner_link_url}, 
+			description=#{description}
+		where uid=#{uid}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		delete from banner
+		where uid=#{uid}
+	</delete>
 	
 </mapper>
