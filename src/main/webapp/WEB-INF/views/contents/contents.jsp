@@ -102,7 +102,7 @@
                         <textarea id="bannerDescription" rows="3" placeholder="배너에 대한 설명을 입력하세요"></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">배너 등록</button>
+                    <button type="submit" class="btn btn-primary" id="bannerSubmitBtn">배너 등록</button>
                 </form>
             </div>
 
@@ -157,17 +157,11 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" form="editBannerForm" class="btn btn-primary">저장</button>
+						<button type="submit" form="editBannerForm" class="btn btn-primary" id="editBannerSubmitBtn">저장</button>
 						<button type="button" class="btn btn-secondary" onclick="closeEditBannerModal()">취소</button>
 					</div>
 				</div>
 			</div>
-
-
-
-
-
-
 		</div>
 		
 		

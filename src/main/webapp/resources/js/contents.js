@@ -33,7 +33,7 @@
 	                    <a href="${banner.banner_link_url}" class="link-preview" target="_blank">${banner.banner_link_url}</a>
 	                    <div class="actions">
 	                        <button class="btn btn-warning" onclick="editBanner(this, '${banner.uid}')">수정</button>
-	                        <button class="btn btn-danger" onclick="deleteBanner('${banner.image_path}', '${banner.uid}')">삭제</button>
+	                        <button class="btn btn-danger" id="deleteBannerSubmitBtn" onclick="deleteBanner('${banner.image_path}', '${banner.uid}')">삭제</button>
 	                    </div>
 	                `;
 	                bannerListDiv.appendChild(item);
@@ -151,17 +151,25 @@
     
     
     // 폼 등록 함수(insert)
-    function submitBannerForm() {
+    function submitBannerForm() {    	
+    	const submitBtn = document.getElementById("bannerSubmitBtn");
+        submitBtn.disabled = true;
+        submitBtn.textContent = "등록 중...";
+        
 	    const fileInput = document.getElementById("bannerImage");
 	    const file = fileInput.files[0];
 	
 	    if (!file) {
 	        alert("이미지를 선택해주세요.");
+	        submitBtn.disabled = false;
+	        submitBtn.textContent = "배너 등록";
 	        return;
 	    }
 	
 	    if (file.size > 5 * 1024 * 1024) {
 	        alert("파일 크기는 5MB를 초과할 수 없습니다.");
+	        submitBtn.disabled = false;
+	        submitBtn.textContent = "배너 등록";
 	        return;
 	    }
 	
@@ -190,6 +198,11 @@
 	        },
 	        error: function (xhr) {
 	            alert("등록 실패: " + xhr.statusText);
+	        },
+	        complete: function () {
+	            // 성공하든 실패하든 버튼 복구
+	            submitBtn.disabled = false;
+	            submitBtn.textContent = "배너 등록";
 	        }
 	    });
 	}
@@ -269,6 +282,10 @@
     document.getElementById('editBannerForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
+        const submitBtn = document.getElementById("editBannerSubmitBtn");
+        submitBtn.disabled = true;
+        submitBtn.textContent = "저장 중...";
+        
         const formData = new FormData();
 
         const uid = document.getElementById('editBannerUid').value;
@@ -280,6 +297,8 @@
 
         if (!title || !link || !imagePath) {
             alert("필수 항목을 입력해주세요.");
+            submitBtn.disabled = false;
+            submitBtn.textContent = "저장";
             return;
         }
 
@@ -299,8 +318,6 @@
             formData.append("file", fileInput.files[0]);
         }
         
-        const cpath = "/admin";
-
         $.ajax({
             url: `${cpath}/api/banner/updateBanner`,
             method: "POST",
@@ -315,6 +332,11 @@
             },
             error: function(xhr) {
                 alert("배너 수정 실패: " + xhr.statusText);
+            },
+            complete: function () {
+                // 성공하든 실패하든 버튼 원상복귀
+                submitBtn.disabled = false;
+                submitBtn.textContent = "저장";
             }
         });
     });
@@ -326,7 +348,13 @@
     
     
 	function deleteBanner(imagePath, uid) {
+		const submitBtn = document.getElementById("deleteBannerSubmitBtn");
+        submitBtn.disabled = true;
+        submitBtn.textContent = "삭제 중...";
+        
         if (!confirm("정말 삭제하시겠습니까?")) {
+        	submitBtn.disabled = false;
+            submitBtn.textContent = "삭제";
         	return;
         }
         
@@ -345,7 +373,12 @@
 	        },
 	        error: function(xhr) {
 	            alert("삭제 실패: " + xhr.statusText);
-	        }
+	        },
+            complete: function () {
+                // 성공하든 실패하든 버튼 원상복귀
+                submitBtn.disabled = false;
+                submitBtn.textContent = "삭제";
+            }
 	    });
     }
 	

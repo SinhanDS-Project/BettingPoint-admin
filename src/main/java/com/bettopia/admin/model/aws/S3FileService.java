@@ -74,7 +74,6 @@ public class S3FileService {
         try {
             // S3 버킷에서 객체 삭제 요청
         	amazonS3.deleteObject(bucketName, objectKey);
-            log.info("삭제 성공!!!");
         } catch (AmazonServiceException e) {
             // AWS S3 측에서 오류 응답을 보내온 경우 (예: 권한 부족, 버킷/객체 없음 등)
             // 요청은 성공적으로 전송되었으나 S3에서 처리하지 못하고 에러를 반환한 상황
