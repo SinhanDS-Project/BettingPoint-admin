@@ -12,7 +12,8 @@
     <script>
 	    const cpath = "${pageContext.request.contextPath}";
 	</script>
-	<script src="${cpath}/resources/js/contents.js" defer></script>
+	<script src="${cpath}/resources/js/banner.js" defer></script>
+	<script src="${cpath}/resources/js/bettube.js" defer></script>
 	
 	<script>
         
@@ -108,7 +109,9 @@
 
             <!-- 등록된 배너 -->
 			<div class="card">
-			    <h3>등록된 배너</h3>
+				<h3>
+                	등록된 배너&nbsp;<small style="font-size: 0.7em; color: #666;">(등록순으로 보여집니다.)</small>
+               	</h3>
 			    <div class="content-grid" id="bannerList"></div>
 			</div>
 			
@@ -165,12 +168,8 @@
 		</div>
 		
 		
-		
-
         <!-- 유튜브 영상 탭 -->
-        <!-- 
         <div id="videos" class="tab-content">
-            유튜브 영상 등록 폼
             <div class="form-section">
                 <h3>유튜브 영상 등록</h3>
                 <p style="color: #718096; margin-bottom: 20px;">메인페이지에 표시될 유튜브 영상을 등록합니다.</p>
@@ -180,17 +179,6 @@
                         <div class="form-group">
                             <label for="videoTitle">영상 제목</label>
                             <input type="text" id="videoTitle" placeholder="영상 제목을 입력하세요" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="videoCategory">카테고리</label>
-                            <select id="videoCategory" required>
-                                <option value="">카테고리 선택</option>
-                                <option value="intro">게임 소개</option>
-                                <option value="tutorial">튜토리얼</option>
-                                <option value="event">이벤트</option>
-                                <option value="review">리뷰</option>
-                                <option value="news">뉴스</option>
-                            </select>
                         </div>
                     </div>
 
@@ -206,65 +194,65 @@
                         <label for="videoDescription">영상 설명</label>
                         <textarea id="videoDescription" rows="4" placeholder="영상에 대한 설명을 입력하세요" required></textarea>
                     </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="videoOrder">표시 순서</label>
-                            <input type="number" id="videoOrder" min="1" placeholder="1" value="1">
-                        </div>
-                        <div class="form-group">
-                            <label for="videoStatus">상태</label>
-                            <select id="videoStatus">
-                                <option value="active">활성</option>
-                                <option value="inactive">비활성</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">영상 등록</button>
-                    <button type="button" class="btn btn-success" onclick="previewVideo()">미리보기</button>
+                    
+                    <button type="submit" class="btn btn-primary" id="videoSubmitBtn">영상 등록</button>
                 </form>
             </div>
 
-            등록된 영상
-            <div class="card">
-                <h3>등록된 영상</h3>
-                <div class="content-grid" id="videoList">
-                    <div class="content-item">
-                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-                        <h4>게임 소개 영상</h4>
-                        <p>게임의 기본 규칙과 플레이 방법을 소개하는 영상입니다. 초보자도 쉽게 따라할 수 있도록 단계별로 설명합니다.</p>
-                        <div class="meta">
-                            <span>카테고리: 게임 소개</span>
-                            <span>조회: 2,345회</span>
-                        </div>
-                        유튜브에서 보기
-                        <a href="https://youtube.com/watch?v=dQw4w9WgXcQ" class="link-preview" target="_blank">유튜브에서 보기</a>
-                        <div class="actions">
-                            <button class="btn btn-warning" onclick="editVideo(1)">수정</button>
-                            <button class="btn btn-danger" onclick="deleteVideo(1)">삭제</button>
-                            <button class="btn btn-success" onclick="toggleVideoStatus(1)">활성화</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-    </div>
 
-    <!-- 미리보기 모달 -->
-    <div id="previewModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>콘텐츠 미리보기</h3>
-                <span class="close" onclick="closeModal()">&times;</span>
+            <div class="card">
+                <h3>
+                	등록된 영상&nbsp;<small style="font-size: 0.7em; color: #666;">(등록순으로 보여집니다.)</small>
+               	</h3>
+                <div class="content-grid" id="videoList"></div>
             </div>
-            <div class="modal-body" id="previewContent">
-                <!-- 미리보기 내용이 여기에 표시됩니다 -->
-            </div>
+            
+            
+            <!-- 유튜브 영상 수정 모달 -->
+			<div id="editVideoModal" class="modal" style="display: none;">
+			    <div class="modal-content">
+			        <div class="modal-header">
+			            <h3>영상 수정</h3>
+			            <span class="close" onclick="closeEditVideoModal()">&times;</span>
+			        </div>
+			        <div class="modal-body">
+			            <form id="editVideoForm">
+			                <input type="hidden" id="editVideoUid" />
+			
+			                <div class="form-group">
+			                    <label for="editVideoTitle">영상 제목</label>
+			                    <input type="text" id="editVideoTitle" placeholder="영상 제목을 입력하세요" required />
+			                </div>
+			
+			                <div class="form-group">
+			                    <label for="editVideoUrl">유튜브 URL</label>
+			                    <input type="url" id="editVideoUrl" placeholder="https://youtube.com/watch?v=..." required />
+			                    <small style="color: #718096; font-size: 0.85rem; margin-top: 5px; display: block;">
+			                        유튜브 동영상 URL을 입력하면 자동으로 썸네일이 생성됩니다.
+			                    </small>
+			                </div>
+			                
+			                <div id="editVideoThumbnailPreview" style="margin: 10px 0;">
+			                    <!-- 썸네일 미리보기 영역 -->
+			                </div>
+			
+			                <div class="form-group">
+			                    <label for="editVideoDescription">영상 설명</label>
+			                    <textarea id="editVideoDescription" rows="4" placeholder="영상에 대한 설명을 입력하세요" required></textarea>
+			                </div>
+			                
+			            </form>
+			        </div>
+			        <div class="modal-footer">
+			            <button type="submit" form="editVideoForm" class="btn btn-primary" id="editVideoSubmitBtn">저장</button>
+			            <button type="button" class="btn btn-secondary" onclick="closeEditVideoModal()">취소</button>
+			        </div>
+			    </div>
+			</div>
+            
         </div>
-    </div>
-		
-	
-		
+    </div>		
 </body>
 </html>
+
+
