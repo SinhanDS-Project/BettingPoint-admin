@@ -45,11 +45,11 @@
                         <label for="qnaCategory">카테고리</label>
                         <select id="qnaCategory" required>
                             <option value="">카테고리 선택</option>
-		                    <option value="게임-게임정보">게임 - 게임정보</option>
-		                    <option value="게임-게임룰">게임 - 게임룰</option>
-		                    <option value="포인트-포인트">포인트 - 포인트</option>
-		                    <option value="기타-계정/회원">기타 - 계정/회원</option>
-		                    <option value="기타-기술 및 시스템">기타 - 기술 및 시스템</option>
+                            <option value="GAME-INFO">게임 - 게임정보</option>
+					        <option value="GAME-RULE">게임 - 게임룰</option>
+					        <option value="POINT-POINT">포인트 - 포인트</option>
+					        <option value="ETC-ACCOUNT">기타 - 계정/회원</option>
+					        <option value="ETC-SYSTEM">기타 - 기술 및 시스템</option>
                         </select>
                     </div>
                 </div>
@@ -70,6 +70,49 @@
 			<div id="qnaList" class="qna-list"></div>
 			<div id="pagination" class="pagination" style="margin-top: 20px; text-align: center;"></div>
 		</div>
+
+		<!-- QnA 수정 모달 -->
+		<div id="editQnaModal" class="modal" style="display: none;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3>QnA 수정</h3>
+					<span class="close" onclick="closeEditQnaModal()">&times;</span>
+				</div>
+				<div class="modal-body">
+					<form id="editQnaForm">
+						<input type="hidden" id="editUid" />
+
+						<div class="form-group">
+						    <label for="editCategory">카테고리</label>
+						    <select id="editCategory" required>
+						        <option value="GAME-INFO">게임 - 게임정보</option>
+						        <option value="GAME-RULE">게임 - 게임룰</option>
+						        <option value="POINT-POINT">포인트 - 포인트</option>
+						        <option value="ETC-ACCOUNT">기타 - 계정/회원</option>
+						        <option value="ETC-SYSTEM">기타 - 기술 및 시스템</option>
+						    </select>
+						</div>
+
+
+						<div class="form-group">
+							<label for="editQuestion">질문</label> 
+							<input type="text" id="editQuestion" required />
+						</div>
+
+						<div class="form-group">
+							<label for="editAnswer">답변</label>
+							<textarea id="editAnswer" required></textarea>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" form="editQnaForm" class="btn btn-primary">저장</button>
+					<button type="button" class="btn btn-secondary" onclick="closeEditQnaModal()">취소</button>
+				</div>
+			</div>
+		</div>
+
+
 	</div>
   
 </body>

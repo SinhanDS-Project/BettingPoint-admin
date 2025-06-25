@@ -26,7 +26,7 @@
 	
 	<!-- multipartResolver 등록 -->
 	<beans:bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	   <beans:property name="maxUploadSize" value="10000000"/>
+	   <beans:property name="maxUploadSize" value="5242880"/> <!-- 5MB -->
 	</beans:bean>
 	
 	

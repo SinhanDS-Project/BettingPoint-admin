@@ -1,8 +1,10 @@
 	
+	let originalBannerImageUrl = '';
+	
 	// 페이지 로드 시 초기화
     document.addEventListener('DOMContentLoaded', function() {
     	loadBannerList(1);
-        setupDragAndDrop();
+        setupDragAndDrop('bannerDropArea', 'bannerImage', 'bannerPreview');
     });
     
     function loadBannerList(page = 1) {
@@ -55,10 +57,16 @@
     }
 
     // 드래그 앤 드롭 기능
-    function setupDragAndDrop() {
-        const dropArea = document.getElementById('bannerDropArea');
-        const fileInput = document.getElementById('bannerImage');
-
+    function setupDragAndDrop(dropAreaId, fileInputId, previewId) {
+        const dropArea = document.getElementById(dropAreaId);
+        const fileInput = document.getElementById(fileInputId);
+        
+        // ✅ 중복 등록 방지
+        if (fileInput.dataset.listenerAttached === 'true') {
+            return; // 이미 등록된 경우 아무 것도 하지 않음
+        }
+        fileInput.dataset.listenerAttached = 'true'; // 최초 등록 표시
+        
         // 드래그 앤 드롭 이벤트
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropArea.addEventListener(eventName, preventDefaults, false);
@@ -102,31 +110,43 @@
             if (files.length > 0) {
                 const file = files[0];
                 if (file.type.startsWith('image/')) {
-                    displayImagePreview(file);
+                    displayImagePreview(file, previewId);
                 } else {
                     alert('이미지 파일만 업로드 가능합니다.');
                 }
             }
         }
 
-        function displayImagePreview(file) {
+        function displayImagePreview(file, previewId = 'bannerPreview') {
             const reader = new FileReader();
             reader.onload = function(e) {
-                const preview = document.getElementById('bannerPreview');
+                const preview = document.getElementById(previewId);
+                preview.innerHTML = '';  // 기존 미리보기 초기화
+                
+                // previewId에 따라 함수 선택
+                const removeFn = previewId === 'editBannerPreview'
+                    ? `restoreOriginalPreview('${previewId}')`
+                    : `removePreview('${previewId}')`;
+                
                 preview.innerHTML = `
                     <div style="position: relative; display: inline-block;">
                         <img src="${e.target.result}" alt="미리보기" style="max-width: 300px; max-height: 200px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                        <button type="button" onclick="removePreview()" style="position: absolute; top: 5px; right: 5px; background: #e53e3e; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">×</button>
+                        <button type="button" onclick="${removeFn}" style="position: absolute; top: 5px; right: 5px; background: #e53e3e; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">×</button>
                     </div>
                 `;
+                
+                preview.dataset.oldPath = file.name;
             };
             reader.readAsDataURL(file);
         }
     }
 
-    function removePreview() {
-        document.getElementById('bannerPreview').innerHTML = '';
-        document.getElementById('bannerImage').value = '';
+    function removePreview(previewId = 'bannerPreview') {
+        const preview = document.getElementById(previewId);
+        preview.innerHTML = '';
+        // 선택된 파일도 초기화하려면 해당 input도 초기화
+        const inputId = previewId === 'editBannerPreview' ? 'editBannerImageFile' : 'bannerImage';
+        document.getElementById(inputId).value = '';
     }
     
     
@@ -180,6 +200,34 @@
     	
     	submitBannerForm();
     });
+            
+    // 수정 모달 미리보기 되돌리기
+    function restoreOriginalPreview(previewId) {
+        const preview = document.getElementById(previewId);
+        const imgUrl = originalBannerImageUrl;
+        
+        preview.innerHTML = `
+            <div style="position: relative; display: inline-block;">
+                <img src="${imgUrl}" alt="기존 이미지" 
+                     style="max-width: 300px; max-height: 200px; border-radius: 8px;">
+                <button type="button" onclick="restoreOriginalPreview('${previewId}')" 
+                    style="position: absolute; top: 5px; right: 5px; 
+                           background: #e53e3e; color: white; border: none; 
+                           border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">×</button>
+            </div>
+        `;
+        
+        // input 초기화
+        const inputId = (previewId === 'editBannerPreview') ? 'editBannerImageFile' : 'bannerImage';
+        const fileInput = document.getElementById(inputId);
+        if (fileInput) {
+            fileInput.value = '';
+        }
+
+        // hidden dataset에 원래 path 다시 설정
+        preview.dataset.oldPath = imgUrl.split('/').pop();
+    }
+
 
 	// 배너/영상 관리 함수들
     function editBanner(btnRef, uid) { // update
@@ -188,40 +236,94 @@
     	const oldTitle = bannerItem.querySelector('h4').innerText.trim();
 	    const oldDescription = bannerItem.querySelector('p').innerText.trim();
 	    const oldUrl = bannerItem.querySelector('.link-preview').innerText.trim();
-		const fullUrl = bannerItem.querySelector('img').getAttribute('src');
-		const oldImagePath = fullUrl.split('/').pop();
+		const oldImagePath = bannerItem.querySelector('img').getAttribute('src');
+		
+		originalBannerImageUrl = oldImagePath; // ← 글로벌 변수에 저장
 	
-	    const newTitle = prompt("새로운 제목을 입력하세요:", oldTitle);
-	    const newDescription = prompt("새로운 설명을 입력하세요:", oldDescription);
-	    const newUrl = prompt("새로운 링크를 입력하세요:", oldUrl);
-    	
-    	if (newTitle && newUrl) {
-			const data = {
-			    uid: uid,
-			    title: newTitle,
-			    description: newDescription,
-			    banner_link_url: newUrl,
-			    image_path: oldImagePath
-			};
-			
-			const cpath = "/admin";
-			
-			$.ajax({
-			    url: `${cpath}/api/banner/updateBanner`,
-			    method: "PUT",
-			    contentType: "application/json",
-			    data: JSON.stringify(data),
-			    success: function (res) {
-			        alert(res);
-			        loadBannerList();
-			    },
-			    error: function (xhr) {
-			        alert("배너 수정 실패: " + xhr.statusText);
-			    }
-			});
-    	}
-    
+		// 모달에 값 설정
+	    document.getElementById('editBannerUid').value = uid;
+	    document.getElementById('editBannerTitle').value = oldTitle;
+	    document.getElementById('editBannerDescription').value = oldDescription;
+	    document.getElementById('editBannerLink').value = oldUrl;
+	    
+	    // 이미지 미리보기 설정
+	    document.getElementById('editBannerPreview').innerHTML = `
+	    		<div style="position: relative; display: inline-block;">
+	    			<img src="${oldImagePath}" alt="현재 이미지"
+	    					style="max-width: 300px; max-height: 200px; border-radius: 8px;">
+	    			<button type="button" onclick="restoreOriginalPreview('editBannerPreview')" 
+	    					style="position: absolute; top: 5px; right: 5px; 
+	    						background: #e53e3e; color: white; border: none; 
+	    						border-radius: 50%; width: 25px; 
+	    						height: 25px; cursor: pointer;">×</button>
+	    		</div>
+	    `;
+	    // 기존 이미지 경로 저장
+	    document.getElementById('editBannerPreview').dataset.oldPath = oldImagePath.split('/').pop();
+
+	    // 모달 열기
+	    document.getElementById('editBannerModal').style.display = 'block';
+	    setupDragAndDrop('editBannerDropArea', 'editBannerImageFile', 'editBannerPreview');
     }
+    
+    document.getElementById('editBannerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData();
+
+        const uid = document.getElementById('editBannerUid').value;
+        const title = document.getElementById('editBannerTitle').value.trim();
+        const link = document.getElementById('editBannerLink').value.trim();
+        const description = document.getElementById('editBannerDescription').value.trim();
+        const imagePath = document.getElementById('editBannerPreview').dataset.oldPath;
+
+
+        if (!title || !link || !imagePath) {
+            alert("필수 항목을 입력해주세요.");
+            return;
+        }
+
+        const banner = {
+            uid: uid,
+            title: title,
+            banner_link_url: link,
+            description: description,
+            image_path: imagePath, // 기존 이미지 그대로 보내고, 새로 선택 시 JS에서 교체됨
+            original_image_path: originalBannerImageUrl.split('/').pop()
+        };
+        
+        formData.append("banner", new Blob([JSON.stringify(banner)], { type: "application/json" }));
+        
+        const fileInput = document.getElementById('editBannerImageFile');
+        if (fileInput.files.length > 0) {
+            formData.append("file", fileInput.files[0]);
+        }
+        
+        const cpath = "/admin";
+
+        $.ajax({
+            url: `${cpath}/api/banner/updateBanner`,
+            method: "POST",
+            data: formData,
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,            
+            success: function(res) {
+                alert(res);
+                closeEditBannerModal();
+                loadBannerList(); // 목록 갱신
+            },
+            error: function(xhr) {
+                alert("배너 수정 실패: " + xhr.statusText);
+            }
+        });
+    });
+    
+    function closeEditBannerModal() {
+        document.getElementById('editBannerModal').style.display = 'none';
+    }
+
+    
     
 	function deleteBanner(imagePath, uid) {
         if (!confirm("정말 삭제하시겠습니까?")) {
@@ -246,7 +348,6 @@
 	        }
 	    });
     }
-	
 	
 	
 	

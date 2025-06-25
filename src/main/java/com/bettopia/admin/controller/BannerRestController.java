@@ -24,10 +24,12 @@ import com.bettopia.admin.model.contents.BannerDTO;
 import com.bettopia.admin.model.contents.BannerService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/banner")
 @RequiredArgsConstructor
+@Slf4j
 public class BannerRestController {	
 	
 	final BannerService bannerService;
@@ -45,7 +47,7 @@ public class BannerRestController {
 	            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
 	            produces = MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8")
 	public String insertBanner(@RequestPart("banner") BannerDTO banner,
-	                          @RequestPart("file") MultipartFile file) {
+	                           @RequestPart("file") MultipartFile file) {
 	
 	   banner.setUid(UUID.randomUUID().toString().replace("-", ""));
 	   
@@ -57,12 +59,33 @@ public class BannerRestController {
 	   return result > 0 ? "배너 등록이 완료되었습니다." : "배너 등록에 실패하였습니다.";
 	}
 	
-	@PutMapping(value="/updateBanner", 
+	@PostMapping(value="/updateBanner", 
 			produces = MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8", 
-    		consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String updateBanner(@RequestBody BannerDTO banner) {
-    	int result = bannerService.updateBanner(banner);
-    	return result>0?"배너 수정에 성공하였습니다.":"배너 수정에 실패하였습니다.";
+			consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String updateBanner(@RequestPart("banner") BannerDTO banner,
+    						   @RequestPart("file") MultipartFile file) {
+		try {
+			// 새로운 파일이 들어왔다면
+	        if (file != null && !file.isEmpty()) {
+	        	// 기존 이미지 경로
+	            String original = banner.getOriginal_image_path();
+	            if (original != null && !original.isBlank()) {
+	            	// 기존 이미지 S3에서 삭제
+	                s3FileService.deleteObject(original);
+	            }
+	            
+	            // 새 이미지 업로드
+	            String newFileName = s3FileService.uploadFile(file);
+	            banner.setImage_path(newFileName);
+	        }
+
+	        int result = bannerService.updateBanner(banner);
+	        return result > 0 ? "배너 수정에 성공하였습니다." : "배너 수정에 실패하였습니다.";
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "서버 오류로 인해 배너 수정에 실패하였습니다.";
+	    }
     }
 	
 	@DeleteMapping(value="/deleteBanner", 

@@ -74,20 +74,30 @@
 	    if (currentPage < totalPages) pagination.appendChild(makeButton(">", currentPage + 1));
 	}
 
-	
+	// 영어 -> 한글로 매핑
 	function getCategoryName(combinedCategory) {
-	    const categoryMap = {
-	        "게임-게임정보": "게임 - 게임정보",
-	        "게임-게임룰": "게임 - 게임룰",
-	        "포인트-포인트": "포인트 - 포인트",
-	        "기타-계정/회원": "기타 - 계정/회원",
-	        "기타-기술 및 시스템": "기타 - 기술 및 시스템"
+		const categoryMap = {
+	        "GAME-INFO": "게임 - 게임정보",
+	        "GAME-RULE": "게임 - 게임룰",
+	        "POINT-POINT": "포인트 - 포인트",
+	        "ETC-ACCOUNT": "기타 - 계정/회원",
+	        "ETC-SYSTEM": "기타 - 기술 및 시스템"
 	    };
 	
 	    return categoryMap[combinedCategory] || combinedCategory;
 	}
-
-
+	
+	// 한글 -> 영어로 매핑
+	function getCategoryNameReverse(koreanLabel) {
+	    const reverseMap = {
+	        "게임 - 게임정보": "GAME-INFO",
+	        "게임 - 게임룰": "GAME-RULE",
+	        "포인트 - 포인트": "POINT-POINT",
+	        "기타 - 계정/회원": "ETC-ACCOUNT",
+	        "기타 - 기술 및 시스템": "ETC-SYSTEM"
+	    };
+	    return reverseMap[koreanLabel] || "";
+	}
 	
 	function insertQA() {
 		const categoryValue = $("#qnaCategory").val(); // 예: "게임-게임정보"
@@ -128,46 +138,55 @@
 	function updateQA(btnRef, uid) {
 		const qnaItem = btnRef.closest('.qna-item');
 		
-	    const oldQuestion = qnaItem.querySelector('h4').innerText.replace("Q: ", "").trim();
-	    const oldAnswer = qnaItem.querySelector('.answer').innerText.replace("A:", "").trim();
-	    const oldCategory = qnaItem.querySelector('.badge').innerText.trim(); // ex: "게임-게임정보"
-		
-		const newQuestion = prompt("새로운 질문을 입력하세요:", oldQuestion);
-    	const newAnswer = prompt("새로운 답변을 입력하세요:", oldAnswer);
-    	
-    	const categoryOptions = [
-	        "게임-게임정보",
-	        "게임-게임룰",
-	        "포인트-포인트",
-	        "기타-계정/회원",
-	        "기타-기술 및 시스템"
-	    ];
-		
-		if (newQuestion && newAnswer && categoryOptions.includes(oldCategory)) {
-			const [main_category, sub_category] = currentCombined.split("-");
-			
-	        const cpath = "/admin";
-	        const data = {
-	            uid: uid,
-	            main_category: main_category,
-	            sub_category: sub_category,
-	            question_text: newQuestion,
-	            answer_text: newAnswer,
-	            
-	        };
-	
-	        $.ajax({
-	            url: `${cpath}/api/chat/updateqa`,
-	            method: "PUT",
-	            contentType: "application/json",
-	            data: JSON.stringify(data),
-	            success: res => {
-	                alert(res);
-	                loadQAList();
-	            }
-	        });
-	    }
+		const category  = qnaItem.querySelector('.badge').innerText.trim(); // ex: "게임-게임정보"
+	    const question = qnaItem.querySelector('h4').innerText.replace("Q: ", "").trim();
+	    const answer = qnaItem.querySelector('.answer').innerText.replace("A:", "").trim();
+	        	
+		// 모달에 값 세팅
+	    document.getElementById('editUid').value = uid;
+	    document.getElementById('editCategory').value = getCategoryNameReverse(category); 
+	    document.getElementById('editQuestion').value = question;
+	    document.getElementById('editAnswer').value = answer;
+
+	    // 모달 열기
+	    document.getElementById('editQnaModal').style.display = 'block';
 	}
+	
+	document.getElementById('editQnaForm').addEventListener('submit', function (e) {
+	    e.preventDefault();
+	    
+	    const combinedCategory = document.getElementById('editCategory').value;
+	    const [main_category, sub_category] = combinedCategory.split("-");
+
+	    const cpath = "/admin";
+	    const data = {
+	        uid: document.getElementById('editUid').value,
+	        main_category: main_category,
+	        sub_category: sub_category,
+	        question_text: document.getElementById('editQuestion').value,
+	        answer_text: document.getElementById('editAnswer').value
+	    };
+
+	    $.ajax({
+	        url: `${cpath}/api/chat/updateqa`,
+	        method: "PUT",
+	        contentType: "application/json",
+	        data: JSON.stringify(data),
+	        success: function (res) {
+	            alert(res);
+	            closeEditQnaModal();  // 모달 닫기
+	            loadQAList();         // 목록 갱신
+	        },
+	        error: function (xhr) {
+	            alert("수정 실패: " + xhr.statusText);
+	        }
+	    });
+	});
+	
+	function closeEditQnaModal() {
+	    document.getElementById('editQnaModal').style.display = 'none';
+	}
+
 	
 	function deleteQA(uid) {
 	    if (!confirm("정말 삭제하시겠습니까?")) return;

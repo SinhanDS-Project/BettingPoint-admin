@@ -26,8 +26,7 @@
 		set main_category=#{main_category},
 			sub_category=#{sub_category},
 			question_text=#{question_text}, 
-			answer_text=#{answer_text}, 
-			category=#{category}
+			answer_text=#{answer_text}
 		where uid=#{uid}
 	</update>
 	
