@@ -56,13 +56,13 @@ public class HomeController {
 		return "board/board"; 
 	}
 	
-	// 컨텐츠 관리 페이지 (배튜브)
+	// 컨텐츠 관리 페이지
 	@GetMapping("/contents")
 	public String contentsManagePage(Model model) {
 		return "contents/contents"; 
 	}
 	
-	// 게임 통계 관리 페이지 (배튜브)
+	// 게임 통계 관리 페이지
 	@GetMapping("/game_statistics")
 	public String statisticsManagePage(Model model) {
 		return "game/statistics"; 

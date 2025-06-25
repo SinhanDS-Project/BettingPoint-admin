@@ -6,44 +6,6 @@
     	loadBannerList(1);
         setupDragAndDrop('bannerDropArea', 'bannerImage', 'bannerPreview');
     });
-    
-    function loadBannerList(page = 1) {
-	    $.ajax({
-	        url: `${cpath}/api/banner/allBanner`,
-	        type: 'GET',
-	        success: function(res) {
-	            const bannerData = res.data;
-	            
-	            const bannerListDiv = document.getElementById('bannerList');
-	            const s3BaseUrl = "https://bettopia-bucket.s3.ap-southeast-2.amazonaws.com/";
-	            bannerListDiv.innerHTML = ""; // 기존 내용 비우기
-	
-	            bannerData.forEach(banner => {
-	                const item = document.createElement('div');
-	                item.className = 'content-item';
-
-	                item.innerHTML = `
-	                    <img src="${s3BaseUrl}${banner.image_path}" alt="${banner.title}">
-	                    <h4>${banner.title}</h4>
-	                    <p>${banner.description}</p>
-	                    <div class="meta">
-	                        <span>위치: 미지정</span>
-	                        <span>조회: 0회</span>
-	                    </div>
-	                    <a href="${banner.banner_link_url}" class="link-preview" target="_blank">${banner.banner_link_url}</a>
-	                    <div class="actions">
-	                        <button class="btn btn-warning" onclick="editBanner(this, '${banner.uid}')">수정</button>
-	                        <button class="btn btn-danger" id="deleteBannerSubmitBtn" onclick="deleteBanner('${banner.image_path}', '${banner.uid}')">삭제</button>
-	                    </div>
-	                `;
-	                bannerListDiv.appendChild(item);
-	            });
-	        },
-	        error: function(xhr) {
-	            alert("배너 목록 불러오기 실패");
-	        }
-	    });
-	}
 
 	// 탭 전환 함수
     function showTab(tabName) {
@@ -147,7 +109,46 @@
         // 선택된 파일도 초기화하려면 해당 input도 초기화
         const inputId = previewId === 'editBannerPreview' ? 'editBannerImageFile' : 'bannerImage';
         document.getElementById(inputId).value = '';
-    }
+    }    
+
+    
+    function loadBannerList(page = 1) {
+	    $.ajax({
+	        url: `${cpath}/api/banner/allBanner`,
+	        type: 'GET',
+	        success: function(res) {
+	            const bannerData = res.data;
+	            
+	            const bannerListDiv = document.getElementById('bannerList');
+	            const s3BaseUrl = "https://bettopia-bucket.s3.ap-southeast-2.amazonaws.com/";
+	            bannerListDiv.innerHTML = ""; // 기존 내용 비우기
+	
+	            bannerData.forEach(banner => {
+	                const item = document.createElement('div');
+	                item.className = 'content-item';
+
+	                item.innerHTML = `
+	                    <img src="${s3BaseUrl}${banner.image_path}" alt="${banner.title}">
+	                    <h4>${banner.title}</h4>
+	                    <p>${banner.description}</p>
+	                    <div class="meta">
+	                        <span>위치: 미지정</span>
+	                        <span>조회: 0회</span>
+	                    </div>
+	                    <a href="${banner.banner_link_url}" class="link-preview" target="_blank">${banner.banner_link_url}</a>
+	                    <div class="actions">
+	                        <button class="btn btn-warning" onclick="editBanner(this, '${banner.uid}')">수정</button>
+	                        <button class="btn btn-danger" id="deleteBannerSubmitBtn" onclick="deleteBanner('${banner.image_path}', '${banner.uid}')">삭제</button>
+	                    </div>
+	                `;
+	                bannerListDiv.appendChild(item);
+	            });
+	        },
+	        error: function(xhr) {
+	            alert("배너 목록 불러오기 실패");
+	        }
+	    });
+	}
     
     
     // 폼 등록 함수(insert)
@@ -242,7 +243,7 @@
     }
 
 
-	// 배너/영상 관리 함수들
+	// 배너 수정
     function editBanner(btnRef, uid) { // update
     	const bannerItem = btnRef.closest('.content-item');
     	
@@ -346,7 +347,7 @@
     }
 
     
-    
+    // 배너 삭제
 	function deleteBanner(imagePath, uid) {
 		const submitBtn = document.getElementById("deleteBannerSubmitBtn");
         submitBtn.disabled = true;
@@ -358,7 +359,6 @@
         	return;
         }
         
-	    const cpath = "/admin";
 	    $.ajax({
 	    	url: `${cpath}/api/banner/deleteBanner`,
 	        type: 'DELETE',
@@ -381,91 +381,4 @@
             }
 	    });
     }
-	
-	
-	
-	
-	
-	
-
-    // 유튜브 ID 추출 함수
-    function extractYouTubeId(url) {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-        const match = url.match(regExp);
-        return (match && match[2].length === 11) ? match[2] : null;
-    }
-
-    // 카테고리명 변환
-    function getCategoryName(category) {
-        const categories = {
-            'intro': '게임 소개',
-            'tutorial': '튜토리얼',
-            'event': '이벤트',
-            'review': '리뷰',
-            'news': '뉴스'
-        };
-        return categories[category] || category;
-    }
-
-    function updateVideoCount() {
-        const count = document.querySelectorAll('#videoList .content-item').length;
-        document.getElementById('videoCount').textContent = count;
-    }
-
-    function editVideo(id) {
-        alert(`영상 ${id} 수정 기능입니다. 실제로는 수정 폼이 표시됩니다.`);
-    }
-
-    function deleteVideo(id) {
-        if (confirm('정말로 이 영상을 삭제하시겠습니까?')) {
-            alert('영상이 삭제되었습니다!');
-            updateVideoCount();
-        }
-    }
-
-    function toggleVideoStatus(id) {
-        alert(`영상 ${id}의 상태가 변경되었습니다.`);
-    }
-
-    // 미리보기 함수들
-    function previewVideo() {
-        const title = document.getElementById('videoTitle').value;
-        const url = document.getElementById('videoUrl').value;
-        const description = document.getElementById('videoDescription').value;
-        
-        if (!title || !url) {
-            alert('영상 제목과 URL을 입력해주세요.');
-            return;
-        }
-        
-        const videoId = extractYouTubeId(url);
-        if (!videoId) {
-            alert('올바른 유튜브 URL을 입력해주세요.');
-            return;
-        }
-        
-        const previewContent = document.getElementById('previewContent');
-        previewContent.innerHTML = `
-            <div style="text-align: center;">
-                //<iframe src="https://www.youtube.com/embed/${videoId}" width="100%" height="400" frameborder="0" allowfullscreen style="border-radius: 10px; margin-bottom: 20px;"></iframe>
-                <h3>${title}</h3>
-                <p>${description}</p>
-            </div>
-        `;
-        
-        document.getElementById('previewModal').style.display = 'block';
-    }
-
-    function closeModal() {
-        document.getElementById('previewModal').style.display = 'none';
-    }
-
-    // 모달 외부 클릭 시 닫기
-    window.onclick = function(event) {
-        const modal = document.getElementById('previewModal');
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    }
-
-    
+ 

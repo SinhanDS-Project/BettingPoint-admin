@@ -5,13 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -19,17 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bettopia.admin.model.aws.S3FileService;
-import com.bettopia.admin.model.chatbot.ChatQADTO;
 import com.bettopia.admin.model.contents.BannerDTO;
 import com.bettopia.admin.model.contents.BannerService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/banner")
 @RequiredArgsConstructor
-@Slf4j
 public class BannerRestController {	
 	
 	final BannerService bannerService;
@@ -47,7 +41,7 @@ public class BannerRestController {
 	            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
 	            produces = MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8")
 	public String insertBanner(@RequestPart("banner") BannerDTO banner,
-	                           @RequestPart("file") MultipartFile file) {
+	                           @RequestPart(value = "file") MultipartFile file) {
 	
 	   banner.setUid(UUID.randomUUID().toString().replace("-", ""));
 	   
@@ -63,7 +57,7 @@ public class BannerRestController {
 			produces = MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8", 
 			consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String updateBanner(@RequestPart("banner") BannerDTO banner,
-    						   @RequestPart("file") MultipartFile file) {
+    						   @RequestPart(value = "file", required = false) MultipartFile file) {
 		try {
 			// 새로운 파일이 들어왔다면
 	        if (file != null && !file.isEmpty()) {
