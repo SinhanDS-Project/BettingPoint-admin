@@ -31,12 +31,6 @@ public class ChatRestController {
     public List<ChatQADTO> getAllQuestions() {
         return chatService.selectAll();
     }
-
-    @GetMapping(value="/questionByCate", produces = "application/json;charset=UTF-8")
-    public List<ChatQADTO> getQuestionByCate(@RequestParam("main_category") String main_category){
-        List<ChatQADTO> list = chatService.selectByCate(main_category.trim());
-    	return list;
-    }
     
     @PostMapping(value="/insertqa", produces = "text/plain;charset=utf-8", 
 			consumes = MediaType.APPLICATION_JSON_VALUE)

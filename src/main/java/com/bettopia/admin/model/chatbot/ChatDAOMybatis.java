@@ -20,12 +20,6 @@ public class ChatDAOMybatis implements ChatDAOInterface {
 	}
 
 	@Override
-	public List<ChatQADTO> selectByCate(String main_category) {
-		List<ChatQADTO> qlist = sqlSession.selectList(namespace + "questiontByMainCate", main_category);
-		return qlist;
-	}
-
-	@Override
 	public int insertQA(ChatQADTO chatQA) {
 		int result = sqlSession.insert(namespace + "insert", chatQA);
 		System.out.println(result + "건 등록");
