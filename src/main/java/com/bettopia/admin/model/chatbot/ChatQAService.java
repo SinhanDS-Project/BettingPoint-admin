@@ -17,10 +17,6 @@ public class ChatQAService {
 	public List<ChatQADTO> selectAll() {
 		return chatDAO.selectAll();
 	}
-
-	public List<ChatQADTO> selectByCate(String main_category) {
-		return chatDAO.selectByCate(main_category);
-	}
 	
 	public int insertQA(ChatQADTO chatQA) {
 		return chatDAO.insertQA(chatQA);
