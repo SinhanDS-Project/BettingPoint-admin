@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.bettopia.admin.model.game.GameDTO;
 import com.bettopia.admin.model.game.GameService;
@@ -55,6 +52,11 @@ public class HomeController {
 	public String boardManagePage(Model model) {
 		return "board/board"; 
 	}
+	@GetMapping("/board/detail/{boardId}")
+	public String boardDetailPage(@PathVariable String boardId, Model model) {
+		model.addAttribute("boardId", boardId);
+		return "board/boardDetail";
+	}
 	
 	// 컨텐츠 관리 페이지
 	@GetMapping("/contents")
@@ -74,7 +76,6 @@ public class HomeController {
 	    return "game/game";  
 	}
 
-	
 	// 챗봇 관리 페이지
 	@GetMapping("/chatbot")
     public String chatbotManagePage(Model model) {
