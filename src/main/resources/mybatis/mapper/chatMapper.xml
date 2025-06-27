@@ -8,12 +8,6 @@
 	<select id="selectAll" resultType="chatDTO">
 		SELECT * FROM chatbot_qa order by main_category desc
 	</select> 
-
-	<select id="questiontByMainCate" parameterType="String" resultType="chatDTO">
-		SELECT * 
-		FROM chatbot_qa
-    	WHERE TRIM(main_category) = #{main_category}
-	</select> 
 	
 	<insert id="insert" parameterType="chatDTO">
 		insert into 
@@ -26,8 +20,7 @@
 		set main_category=#{main_category},
 			sub_category=#{sub_category},
 			question_text=#{question_text}, 
-			answer_text=#{answer_text}, 
-			category=#{category}
+			answer_text=#{answer_text}
 		where uid=#{uid}
 	</update>
 	

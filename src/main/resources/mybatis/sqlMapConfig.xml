@@ -17,5 +17,6 @@
 		<typeAlias type="com.bettopia.admin.model.game.GameDTO" alias="gameDTO" />
 		<typeAlias type="com.bettopia.admin.model.contents.BannerDTO" alias="bannerDTO" />
 		<typeAlias type="com.bettopia.admin.model.board.BoardDTO" alias="boardDTO" />
+		<typeAlias type="com.bettopia.admin.model.contents.BettubeDTO" alias="bettubeDTO" />
 	</typeAliases>
 </configuration>
