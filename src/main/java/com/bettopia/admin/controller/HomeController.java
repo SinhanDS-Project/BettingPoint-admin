@@ -64,12 +64,6 @@ public class HomeController {
 		return "contents/contents"; 
 	}
 	
-	// 게임 통계 관리 페이지
-	@GetMapping("/game_statistics")
-	public String statisticsManagePage(Model model) {
-		return "game/statistics"; 
-	}
-	
 	// 게임 관리 페이지
 	@GetMapping("/game")
 	public String gameManagePage() {
@@ -82,4 +76,10 @@ public class HomeController {
         return "chatbot/adminChatQA"; 
     }
 	
+	// 게임 통계 관리 페이지
+	@GetMapping("/chatlogs")
+	public String statisticsManagePage(Model model) {
+		return "chatlogs/chatlogs"; 
+	}
+		
 }
