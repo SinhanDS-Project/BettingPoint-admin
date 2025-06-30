@@ -7,13 +7,18 @@
 <head>
 	<meta charset="UTF-8">
 	<title>문의 내역 관리</title>
-	
+		
  	<link rel="stylesheet" href="${cpath}/resources/css/chatlogs.css"> 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 		const cpath = "${pageContext.request.contextPath}";
 	</script>
 	<script src="${cpath}/resources/js/chatlogs.js" defer></script>
+		
+	<!-- summernote -->
+	<script src="${cpath}/resources/js/summernote/summernote-lite.js"></script>
+	<link rel="stylesheet"
+		  href="${cpath}/resources/css/summernote/summernote-lite.css">
 
 </head>
 <body>
@@ -46,10 +51,13 @@
                         <th>작업</th>
                     </tr>
                 </thead>
-                <tbody id="chatlogTableBody">
-                
-                </tbody>
+                <!-- 문의 내역 list -->
+                <tbody id="chatlogTableBody"></tbody>
             </table>
+            
+            <!-- ✅ 페이지네이션 영역 추가 -->
+		    <div id="chatlogPagination" class="pagination-container" style="margin-top: 20px; text-align: center;">
+	        </div>
         </div>
         
         <!-- 답변 등록 모달 -->
@@ -86,7 +94,9 @@
 		
 		                <div class="form-group">
 		                    <label for="editChatlogResponse">답변 내용</label>
-		                    <textarea id="editChatlogResponse" rows="4" placeholder="여기에 답변 내용을 입력하세요" required></textarea>
+		                    <!-- summernote가 적용될 textarea (id와 name 둘 다 content로 통일) -->
+							<textarea id="summernote" name="content"></textarea>
+		                    <!-- <textarea id="editChatlogResponse" rows="4" placeholder="여기에 답변 내용을 입력하세요" required></textarea> -->
 		                </div>
 		            </form>
 		        </div>

@@ -17,24 +17,21 @@ public class ChatLogRestController {
 	@Autowired
 	ChatLogService chatLogService;
 	
-	@GetMapping("")
-	public List<ChatLogDTO> selectAll(){
-		return chatLogService.selectAll();
-	}
+//	@GetMapping("")
+//	public List<ChatLogDTO> selectAll(){
+//		return chatLogService.selectAll();
+//	}
 	
 	// ✅ 사용자 UID로 채팅 로그 전체 조회
-//    @GetMapping("")
-//    public ChatLogResponseDTO getLogsByUserWithPaging(
-//										@RequestHeader("Authorization") String authHeader,
-//										@RequestParam(defaultValue = "1") int page) {
-//    	String userId = authService.validateAndGetUserId(authHeader);
-//    	List<ChatLogDTO> list = chatLogService.selectByUser(userId, page);
-//    	int totalCount = chatLogService.chatlogCount(userId);
-//    	return ChatLogResponseDTO.builder()
-//    			.logs(list)
-//    			.total(totalCount)
-//    			.build();
-//    }
+    @GetMapping("")
+    public ChatLogResponseDTO getLogsByUserWithPaging(@RequestParam(defaultValue = "1") int page) {
+    	List<ChatLogDTO> list = chatLogService.selectAllWithPaging(page);
+    	int totalCount = chatLogService.chatlogCount();
+    	return ChatLogResponseDTO.builder()
+    			.logs(list)
+    			.total(totalCount)
+    			.build();
+    }
     
     // ✅ UID로 채팅 로그 상세 조회
     @GetMapping("/detail/{chatlog_uid}")

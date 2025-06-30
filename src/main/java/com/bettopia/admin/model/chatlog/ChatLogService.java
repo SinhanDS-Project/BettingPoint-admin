@@ -18,13 +18,13 @@ public class ChatLogService {
 	}
 	
 	public List<ChatLogDTO> selectAllWithPaging(int page) {
-		int size = 10;
+		int size = 8;
         int offset = (page-1) * size;
 		return chatLogDAO.selectAllWithPaging(offset, size);
 	}
 	
-	public int chatlogCount(String userId) {
-		return chatLogDAO.countChatLog(userId);
+	public int chatlogCount() {
+		return chatLogDAO.countChatLog();
 	}	
 	
 	public ChatLogDTO selectByUid(String uid) {

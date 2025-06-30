@@ -28,8 +28,8 @@ public class ChatLogDAOMybatis {
 		return chatlogList;
 	}
 	
-	public int countChatLog(String user_uid) {
-		return sqlSession.selectOne(namespace + "countChatLog", user_uid);
+	public int countChatLog() {
+		return sqlSession.selectOne(namespace + "countChatLog");
 	}
 
 	public ChatLogDTO selectByUid(String uid) {
