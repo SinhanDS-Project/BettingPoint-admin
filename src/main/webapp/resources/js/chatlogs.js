@@ -88,7 +88,6 @@
 	        uid: uid,
 	        response: response
 	    };
-	    console.log(chatlog);
 	    
 	    $.ajax({
 	        url: `${cpath}/api/chatlog/updateChatlog`,
@@ -101,13 +100,7 @@
 	            loadChatLogs();  // 목록 갱신
 	        },
 	        error: function (xhr) {
-	            let msg = "답변 등록 실패";
-	            if (xhr.responseText) {
-	                msg += `: ${xhr.responseText}`;
-	            } else if (xhr.status) {
-	                msg += ` (HTTP ${xhr.status})`;
-	            }
-	            console.log(msg);
+	        	alert("답변 등록 실패");
 	        },
 	        complete: function () {
 	            submitBtn.disabled = false;
