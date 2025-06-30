@@ -79,18 +79,6 @@
                 </div>
                 </a>
 				
-				<a href="${cpath}/game_statistics">
-                <div class="management-card">
-                    <div class="icon orange">📊</div>
-                    <h3>게임 통계</h3>
-                    <p>수익률 및 이용 현황 분석</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-                        <span class="count">83.3%</span>
-                        <span class="count-label">수익률</span>
-                    </div>
-                </div>
-                </a>
-				
 				<a href="${cpath}/game">
                 <div class="management-card">
                     <div class="icon red">🎮</div>
@@ -102,7 +90,7 @@
                     </div>
                 </div>
                 </a>
-
+                
                 <a href="${cpath}/chatbot">
 				  <div class="management-card">
 				    <div class="icon indigo">🤖</div>
@@ -114,6 +102,19 @@
 				    </div>
 				  </div>
 				</a>	
+				
+				<a href="${cpath}/chatlogs">
+                <div class="management-card">
+                    <div class="icon orange">💬</div>
+                    <h3>CS 관리</h3>
+                    <p>사용자 문의 내역 관리</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                        <span class="count">5</span>
+                        <span class="count-label">문의 내역</span>
+                    </div>
+                </div>
+                </a>				
+				
 				
             </div>
 
