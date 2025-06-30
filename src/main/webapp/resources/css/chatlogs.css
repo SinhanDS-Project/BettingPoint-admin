@@ -394,3 +394,34 @@
 		border-radius: 0 0 15px 15px;
 	}
 	
+	/* 기본 버튼 스타일 */
+	.pagination-btn {
+	    padding: 6px 12px;
+	    margin: 0 4px;
+	    border: 1px solid #ccc;
+	    background-color: white;
+	    color: #333;
+	    font-size: 14px;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    transition: background-color 0.2s, color 0.2s;
+	}
+	
+	/* Hover 시 효과 */
+	.pagination-btn:hover {
+	    background-color: #f2f2f2;
+	}
+	
+	/* 현재 페이지 버튼 강조 */
+	.pagination-active {
+	    background-color: #007bff;
+	    color: white;
+	    border-color: #007bff;
+	}
+	
+	/* 비활성화된 화살표 버튼 */
+	.pagination-disabled {
+	    opacity: 0.5;
+	    cursor: not-allowed;
+	}
+	

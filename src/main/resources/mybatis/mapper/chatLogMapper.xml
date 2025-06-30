@@ -13,8 +13,10 @@
 	</select>
 	
 	<select id="chatLogWithPaging" parameterType="map" resultType="chatlogDTO">
-		SELECT * from chat_logs
-		ORDER BY chat_date DESC
+		SELECT chat_logs.*, user.user_name 
+		FROM chat_logs
+		JOIN user ON chat_logs.user_uid = user.uid
+		ORDER BY response_date, chat_date
 		LIMIT #{size} OFFSET #{offset}
 	</select>
 	
@@ -25,8 +27,8 @@
 			WHERE chat_logs.uid=#{uid}
 	</select>
 		
-	<select id="countChatLog" parameterType="string" resultType="int">
-	    SELECT COUNT(*) FROM chat_logs WHERE user_uid = #{user_uid}
+	<select id="countChatLog" resultType="int">
+	    SELECT COUNT(*) FROM chat_logs
 	</select>	
 	
 	<update id="updateChatLog" parameterType="chatlogDTO">
