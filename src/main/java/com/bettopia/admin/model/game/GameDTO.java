@@ -28,4 +28,6 @@ public class GameDTO {
     
     private String status;
     private Date created_at;
+    
+    private String original_image_path;
 }

@@ -19,7 +19,6 @@ public class GameLevelDAO {
 	}
 
 	public int insert(GameLevelDTO dto) {
-		dto.setUid(UUID.randomUUID().toString().replace("-", ""));
 		return sqlSession.insert(NAMESPACE + "insertGameLevel", dto);
 	}
 

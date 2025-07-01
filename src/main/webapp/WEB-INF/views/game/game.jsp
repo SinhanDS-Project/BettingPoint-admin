@@ -5,14 +5,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>관리자 게임 관리</title>
-<link rel="stylesheet" href="${cpath}/resources/css/game.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-	const cpath = "${pageContext.request.contextPath}";
-</script>
-<script src="${cpath}/resources/js/game.js"></script>
+	<meta charset="UTF-8">
+	<title>관리자 게임 관리</title>
+	
+	<link rel="stylesheet" href="${cpath}/resources/css/game.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		const cpath = "${pageContext.request.contextPath}";
+	</script>
+	<script src="${cpath}/resources/js/game.js"></script>
 </head>
 <body>
 
@@ -41,6 +42,23 @@
 						<input type="text" id="gameName" name="name" placeholder="게임 이름을 입력하세요" required>
 					</div>
 				</div>
+				
+				<div class="form-group">
+                        <label>게임 이미지</label>
+                        <div class="drag-drop-area" id="imageDropArea">
+                            <div class="icon">
+                            	<img src="${cpath}/resources/images/folder.png" width="100" height="100">
+                            </div>
+                            <p><strong>파일을 드래그하여 업로드하거나 클릭하여 선택하세요</strong></p>
+                            <p style="font-size: 0.9rem; color: #a0aec0; margin-top: 10px;">
+                                지원 형식: JPG, PNG, GIF (최대 5MB)<br>
+                                한 개의 이미지만 가능합니다.
+                            </p>
+                            <input type="file" id="gameImage" accept="image/*" style="display: none;" required>
+                        </div>
+                        <div id="imagePreview" style="margin-top: 15px;"></div>
+                    </div>
+				
 								
 				<div class="form-row">					
 					<div class="form-group">
@@ -104,7 +122,7 @@
 						placeholder="게임에 대한 설명을 입력하세요" required></textarea>
 				</div>
 
-				<button type="submit" class="btn btn-primary">게임 등록</button>
+				<button type="submit" id="gameSubmitBtn" class="btn btn-primary">게임 등록</button>
 			</form>
 		</div>
 	</div>
@@ -130,6 +148,22 @@
 					<div class="form-group">
 						<label for="editName">게임 이름</label> 
 						<input type="text" id="editName" readonly="readonly">
+					</div>
+					
+					<div class="form-group">
+					    <label>게임 이미지</label>
+					    <div class="drag-drop-area" id="editImageDropArea">
+					        <div class="icon">
+					            <img src="${cpath}/resources/images/folder.png" width="100" height="100">
+					        </div>
+					        <p><strong>파일을 드래그하여 업로드하거나 클릭하여 선택하세요</strong></p>
+					        <p style="font-size: 0.9rem; color: #a0aec0; margin-top: 10px;">
+					            지원 형식: JPG, PNG, GIF (최대 5MB)<br>
+					            한 개의 이미지만 가능합니다.
+					        </p>
+					        <input type="file" id="editGameImageFile" accept="image/*" style="display: none;">
+					    </div>
+					    <div id="editImagePreview" style="margin-top: 15px;"></div>
 					</div>
 
 					<div class="form-row">
@@ -190,7 +224,7 @@
 			</div>
 			
 			<div class="modal-footer">
-				<button type="submit" form="editForm" class="btn btn-primary">저장</button>
+				<button type="submit" form="editForm" id="editGameSubmitBtn" class="btn btn-primary">저장</button>
 				<button type="button" class="btn btn-secondary" onclick="closeEditModal()">취소</button>
 			</div>
 		</div>

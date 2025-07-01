@@ -28,6 +28,7 @@
 		SET name = #{name},
 			type = #{type},
 			description = #{description},
+			game_img = #{game_img},
 			status = #{status}
 		where uid = #{uid}
 	</update>
