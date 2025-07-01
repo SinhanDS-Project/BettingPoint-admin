@@ -19,5 +19,6 @@
 		<typeAlias type="com.bettopia.admin.model.contents.BannerDTO" alias="bannerDTO" />
 		<typeAlias type="com.bettopia.admin.model.contents.BettubeDTO" alias="bettubeDTO" />
 		<typeAlias type="com.bettopia.admin.model.chatlog.ChatLogDTO" alias="chatlogDTO" />
+		<typeAlias type="com.bettopia.admin.model.user.UserDTO" alias="userDTO" />
 	</typeAliases>
 </configuration>
