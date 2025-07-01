@@ -1,5 +1,12 @@
 package com.bettopia.admin.model.game;
 
+import java.sql.Date;
+
+import com.bettopia.admin.model.aws.S3ImagePathDeserializer;
+import com.bettopia.admin.model.aws.S3ImageUrlSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +21,11 @@ public class GameDTO {
     private String name;
     private String type;
     private String description;
-    private String level;
+    
+    @JsonSerialize(using = S3ImageUrlSerializer.class)
+    @JsonDeserialize(using = S3ImagePathDeserializer.class)
+    private String game_img;
+    
     private String status;
-    private double probability;
-    private double reward;
+    private Date created_at;
 }
