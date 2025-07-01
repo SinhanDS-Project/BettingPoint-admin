@@ -1,0 +1,413 @@
+@charset "UTF-8";
+
+	* {
+	    margin: 0;
+	    padding: 0;
+	    box-sizing: border-box;
+	}
+	
+	body {
+	    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	    background-color: #f5f5f5;
+	    line-height: 1.6;
+	    padding: 20px;
+	}
+	
+	.chatlogs {
+	    max-width: 1200px;
+	    margin: 0 auto;
+	}
+	
+	.page-header {
+	    text-align: center;
+	    margin-bottom: 40px;
+	    padding: 40px 20px;
+	    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	    color: white;
+	    border-radius: 15px;
+	    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+	}
+	
+	.page-header h1 {
+	    font-size: 3rem;
+	    margin-bottom: 15px;
+	    font-weight: 700;
+	}
+	
+	.page-header p {
+	     font-size: 1.2rem;
+	     opacity: 0.9;
+	 }
+	
+	/* tab */
+	.tab-content {
+	    display: none;
+	}
+	
+	.tab-content.active {
+	    display: block;
+	}
+	
+	 /* 카드 스타일 */
+	.card {
+	    background: white;
+	    border-radius: 15px;
+	    padding: 30px;
+	    margin-bottom: 30px;
+	    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+	    border: 1px solid #e2e8f0;
+	}
+	
+	.card h2, .card h3 {
+	    color: #2d3748;
+	    margin-bottom: 25px;
+	    padding-bottom: 15px;
+	    border-bottom: 3px solid #667eea;
+	    font-size: 1.8rem;
+	    display: flex;
+	    align-items: center;
+	    font-weight: 600;
+	}
+	
+	.card h3 {
+	    font-size: 1.3rem;
+	    border-bottom: 2px solid #667eea;
+	    margin-bottom: 20px;
+	    padding-bottom: 10px;
+	}
+	
+	/* 검색 및 필터 */
+	.search-filter-section {
+	    background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+	    padding: 25px;
+	    border-radius: 12px;
+	    margin-bottom: 30px;
+	    border: 1px solid #e2e8f0;
+	}
+	
+	.search-row {
+	    display: grid;
+	    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+	    gap: 15px;
+	    align-items: end;
+	    margin-bottom: 20px;
+	}
+	
+	.filter-row {
+	    display: grid;
+	    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	    gap: 15px;
+	}
+	
+	.form-group {
+	    margin-bottom: 15px;
+	}
+	
+	.form-group label {
+	    display: block;
+	    margin-bottom: 8px;
+	    font-weight: 600;
+	    color: #4a5568;
+	    font-size: 0.95rem;
+	}
+	
+	.form-group input,
+	.form-group select {
+	    width: 100%;
+	    padding: 12px 16px;
+	    border: 2px solid #e2e8f0;
+	    border-radius: 8px;
+	    font-size: 14px;
+	    transition: all 0.3s ease;
+	    background: white;
+	}
+	
+	.form-group input:focus,
+	.form-group select:focus {
+	    outline: none;
+	    border-color: #667eea;
+	    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+	}
+	
+	/* 버튼 스타일 */
+	.btn {
+	    padding: 12px 24px;
+	    border: none;
+	    border-radius: 8px;
+	    cursor: pointer;
+	    font-size: 14px;
+	    font-weight: 500;
+	    transition: all 0.3s ease;
+	    margin-right: 10px;
+	    margin-bottom: 10px;
+	    text-decoration: none;
+	    display: inline-block;
+	    text-align: center;
+	}
+	
+	.btn-primary {
+	    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	    color: white;
+	}
+	
+	.btn-primary:hover {
+	    transform: translateY(-2px);
+	    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+	}
+	
+	.btn-danger {
+	    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+	    color: white;
+	}
+	
+	.btn-danger:hover {
+	    transform: translateY(-2px);
+	    box-shadow: 0 4px 12px rgba(229, 62, 62, 0.4);
+	}
+	
+	.btn-warning {
+	    background: linear-gradient(135deg, #dd6b20 0%, #c05621 100%);
+	    color: white;
+	}
+	
+	.btn-warning:hover {
+	    transform: translateY(-2px);
+	    box-shadow: 0 4px 12px rgba(221, 107, 32, 0.4);
+	}
+	
+	.btn-success {
+	    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+	    color: white;
+	}
+	
+	.btn-success:hover {
+	    transform: translateY(-2px);
+	    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
+	}
+	
+	.btn-outline {
+	    background: white;
+	    color: #667eea;
+	    border: 2px solid #667eea;
+	}
+	
+	.btn-outline:hover {
+	    background: #667eea;
+	    color: white;
+	}
+	
+	.btn-sm {
+	    padding: 8px 16px;
+	    font-size: 12px;
+	}
+	
+	/* 테이블 스타일 */
+	.table-container {
+	    overflow-x: auto;
+	    border-radius: 12px;
+	    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+	}
+	
+	.table {
+	    width: 100%;
+	    border-collapse: collapse;
+	    background: white;
+	    border-radius: 12px;
+	    overflow: hidden;
+	}
+	
+	.table th,
+	.table td {
+	    padding: 15px;
+	    text-align: left;
+	    border-bottom: 1px solid #e2e8f0;
+	}
+	
+	.table th {
+	    background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+	    font-weight: 600;
+	    color: #4a5568;
+	    font-size: 0.9rem;
+	    text-transform: uppercase;
+	    letter-spacing: 0.5px;
+	    position: sticky;
+	    top: 0;
+	    z-index: 10;
+	}
+	
+	.table tr:hover {
+	    background-color: #f8fafc;
+	}
+	
+	.table tr:last-child td {
+	    border-bottom: none;
+	}
+	
+	.table .member-info {
+	    display: flex;
+	    align-items: center;
+	    gap: 12px;
+	}
+	
+	.table .member-avatar {
+	    width: 40px;
+	    height: 40px;
+	    border-radius: 50%;
+	    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    color: white;
+	    font-weight: 600;
+	    font-size: 14px;
+	}
+	
+	.table .member-details h5 {
+	    font-weight: 600;
+	    color: #2d3748;
+	    margin-bottom: 2px;
+	}
+	
+	.table .member-details p {
+	    color: #718096;
+	    font-size: 0.85rem;
+	}
+
+	/* 배지 스타일 */
+	.badge {
+	    display: inline-block;
+	    padding: 6px 12px;
+	    border-radius: 20px;
+	    font-size: 12px;
+	    font-weight: 600;
+	    text-transform: uppercase;
+	    letter-spacing: 0.5px;
+	}
+	
+	.badge-admin {
+	    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+	    color: white;
+	}
+	
+	.badge-user {
+	    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+	    color: white;
+	}
+	
+	
+	/* 페이지네이션 */
+	.pagination {
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    gap: 10px;
+	    margin-top: 30px;
+	}
+	
+	.pagination button {
+	    padding: 10px 15px;
+	    border: 2px solid #e2e8f0;
+	    background: white;
+	    color: #4a5568;
+	    border-radius: 8px;
+	    cursor: pointer;
+	    transition: all 0.3s ease;
+	}
+	
+	.pagination button:hover {
+	    border-color: #667eea;
+	    color: #667eea;
+	}
+	
+	.pagination button.active {
+	    background: #667eea;
+	    color: white;
+	    border-color: #667eea;
+	}
+	
+	.pagination button:disabled {
+	    opacity: 0.5;
+	    cursor: not-allowed;
+	}
+	
+	/* 모달 스타일 */
+	.modal {
+	    display: none;
+	    position: fixed;
+	    z-index: 1000;
+	    left: 0;
+	    top: 0;
+	    width: 100%;
+	    height: 100%;
+	    background-color: rgba(0, 0, 0, 0.8);
+	}
+	
+	.modal-content {
+	    position: relative;
+	    margin: 5% auto;
+	    padding: 0;
+	    width: 90%;
+	    max-width: 600px;
+	    background: white;
+	    border-radius: 15px;
+	    overflow: hidden;
+	    max-height: 90vh;
+	    overflow-y: auto;
+	}
+	
+	.modal-header {
+	    padding: 20px;
+	    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	    color: white;
+	}
+	
+	.modal-body {
+	    padding: 20px;
+	}
+	
+	.close {
+	    position: absolute;
+	    right: 20px;
+	    top: 20px;
+	    color: white;
+	    font-size: 28px;
+	    font-weight: bold;
+	    cursor: pointer;
+	}
+	
+	.close:hover {
+	    opacity: 0.7;
+	}
+
+	/* 반응형 */
+	@media (max-width: 768px) {
+	    .container {
+	        padding: 15px;
+	    }
+	    
+	    .page-header h1 {
+	        font-size: 2rem;
+	    }
+	    
+	    .search-row {
+	        grid-template-columns: 1fr;
+	    }
+	    
+	    .stats-grid {
+	        grid-template-columns: repeat(2, 1fr);
+	    }
+	    
+	    .member-grid {
+	        grid-template-columns: 1fr;
+	    }
+	    
+	    .tabs {
+	        flex-direction: column;
+	    }
+	    
+	    .table th,
+	    .table td {
+	        padding: 10px;
+	        font-size: 0.9rem;
+	    }
+	}
