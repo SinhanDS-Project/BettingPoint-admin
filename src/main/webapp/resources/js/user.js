@@ -141,9 +141,8 @@
 	            const phone = user.phone_number || '-';
 	            const birth = formatDate(user.birth_date);
 	            const point = `${formatMoney(user.point_balance)}`;
-	            const s3BaseUrl = "https://bettopia-bucket.s3.ap-southeast-2.amazonaws.com/";
 	            const profile = user.profile_img
-	                ? `<img src="${s3BaseUrl}${user.profile_img}" alt="프로필" style="width: 80px; height: 80px; border-radius: 50%;">`
+	                ? `<img src="${user.profile_img}" alt="프로필" style="width: 80px; height: 80px; border-radius: 50%;">`
 	                : `<div style="width: 80px; height: 80px; border-radius: 50%; background: #eee; display: flex; align-items: center; justify-content: center;">N/A</div>`;
 	            	            
 	            document.getElementById('memberModalContent').innerHTML = `

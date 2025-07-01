@@ -2,6 +2,11 @@ package com.bettopia.admin.model.user;
 
 import java.sql.Date;
 
+import com.bettopia.admin.model.aws.S3ImagePathDeserializer;
+import com.bettopia.admin.model.aws.S3ImageUrlSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,5 +30,8 @@ public class UserDTO {
 	private Date last_login_at;
 	private String role;
 	private int point_balance;
+	
+	@JsonSerialize(using = S3ImageUrlSerializer.class)
+    @JsonDeserialize(using = S3ImagePathDeserializer.class)
 	private String profile_img;
 }
