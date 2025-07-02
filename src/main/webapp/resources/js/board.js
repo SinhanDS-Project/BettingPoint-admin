@@ -27,19 +27,7 @@ function insertBoard() {
 
         const imageUrl = uploadedImageUrls.filter(url => !currentImageUrls.includes(url));
 
-        $.ajax({
-            url: '/api/board/image-delete',
-            method: 'DELETE',
-            contentType: 'application/json',
-            data: JSON.stringify({urls: imageUrl}),
-            success: function () {
-                console.log('S3에서 이미지 삭제 완료');
-                uploadedImageUrls = [];
-            },
-            error: function (err) {
-                console.error('S3 이미지 삭제 실패:', err);
-            }
-        });
+        deleteImages(imageUrl);
 
         const token = localStorage.getItem("accessToken");
 
@@ -58,6 +46,22 @@ function insertBoard() {
                 $('#summernote-create').summernote('reset');
             }
         });
+    });
+}
+
+function deleteImages(imageUrl) {
+    $.ajax({
+        url: '/api/board/image-delete',
+        method: 'DELETE',
+        contentType: 'application/json',
+        data: JSON.stringify({urls: imageUrl}),
+        success: function () {
+            console.log('S3에서 이미지 삭제 완료');
+            uploadedImageUrls = [];
+        },
+        error: function (err) {
+            console.error('S3 이미지 삭제 실패:', err);
+        }
     });
 }
 
@@ -241,6 +245,13 @@ function updateBoard() {
             title: $('#edit-title').val(),
             content: $('#summernote-update').summernote('code')
         };
+
+        const currentImageUrls = boardData.content.match(/<img [^>]*src="([^"]*)"/g)
+            ?.map(tag => tag.match(/src="([^"]*)"/)[1]) || [];
+
+        const imageUrl = uploadedImageUrls.filter(url => !currentImageUrls.includes(url));
+
+        deleteImages(imageUrl)
 
         $.ajax({
             url: `/api/board/update/${boardId}`,
