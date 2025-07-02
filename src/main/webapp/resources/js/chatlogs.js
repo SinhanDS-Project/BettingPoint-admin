@@ -118,7 +118,7 @@
 	    document.getElementById('editChatlogUid').value = log.uid;
 	    document.getElementById('editChatlogTitle').value = log.title;
 	    document.getElementById('editChatlogUser').value = log.user_name;
-	    document.getElementById('editChatlogQuestion').value = log.question;
+	    document.getElementById('editChatlogQuestion').innerHTML = log.question;
 	    document.getElementById('editChatlogDate').value = formatDate(log.chat_date);
 	    
 	    // Summernote가 아직 초기화되지 않았다면 초기화

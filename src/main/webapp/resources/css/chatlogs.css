@@ -425,3 +425,11 @@
 	    cursor: not-allowed;
 	}
 	
+	.question-box {
+	    border: 1px solid #ccc;
+	    padding: 8px;
+	    background-color: #fff;
+	    min-height: 100px;
+	    white-space: pre-wrap; /* 줄바꿈 유지 */
+	}
+	
