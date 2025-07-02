@@ -1,18 +1,38 @@
+let uploadedImageUrls = [];
+
 // 게시글 등록
 function insertBoard() {
+
+    $('#summernote-create').summernote({
+        height: 500,
+        lang: "ko-KR",
+        placeholder: '최대 2048자까지 쓸 수 있습니다',
+        callbacks: {
+            onImageUpload: function (files) {
+                uploadSummernoteImageFile(files[0], this);
+            }
+        }
+    });
+
     $('.form-section form').on('submit', function (e) {
         e.preventDefault();
         const boardData = {
             category: $('#boardType').val(),
             title: $('#boardTitle').val(),
-            content: $('#boardContent').val(),
-            // board_img: $('#bannerImage').val()
+            content: $('#summernote-create').summernote('code')
         };
+
+        const currentImageUrls = boardData.content.match(/<img [^>]*src="([^"]*)"/g)
+            ?.map(tag => tag.match(/src="([^"]*)"/)[1]) || [];
+
+        const imageUrl = uploadedImageUrls.filter(url => !currentImageUrls.includes(url));
+
+        deleteImages(imageUrl);
 
         const token = localStorage.getItem("accessToken");
 
         $.ajax({
-            url: '/api/board/insert',
+            url: `${cpath}/api/board/insert`,
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(boardData),
@@ -23,15 +43,53 @@ function insertBoard() {
                 alert('게시글이 등록되었습니다.');
                 loadBoardList();
                 $('.form-section form')[0].reset();
+                $('#summernote-create').summernote('reset');
             }
         });
+    });
+}
+
+function deleteImages(imageUrl) {
+    $.ajax({
+        url: `${cpath}/api/board/image-delete`,
+        method: 'DELETE',
+        contentType: 'application/json',
+        data: JSON.stringify({urls: imageUrl}),
+        success: function () {
+            console.log('S3에서 이미지 삭제 완료');
+            uploadedImageUrls = [];
+        },
+        error: function (err) {
+            console.error('S3 이미지 삭제 실패:', err);
+        }
+    });
+}
+
+// 이미지 S3에 업로드 후 Summernote에 삽입
+function uploadSummernoteImageFile(file, editor) {
+    let data = new FormData();
+    data.append("image", file);
+
+    $.ajax({
+        data: data,
+        type: "POST",
+        url: `${cpath}/api/board/image-upload`,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            $(editor).summernote('insertImage', data.url);
+            uploadedImageUrls.push(data.url);
+        },
+        error: function () {
+            alert("이미지 업로드에 실패했습니다.");
+        }
     });
 }
 
 // 게시글 목록 불러오기
 function loadBoardList() {
     $.ajax({
-        url: '/api/board/list', // 실제 경로에 맞게 수정
+        url: `${cpath}/api/board/list`, // 실제 경로에 맞게 수정
         method: 'GET',
         success: function (data) {
             renderBoardTables(data);
@@ -93,7 +151,7 @@ function renderBoardTables(boardList) {
 // 게시글 상세 조회
 function detailBoard(boardId) {
     $.ajax({
-        url: `/api/board/detail/${boardId}`,
+        url: `${cpath}/api/board/detail/${boardId}`,
         method: 'GET',
         success: function (board) {
             loadBoardDetail(board);
@@ -135,7 +193,7 @@ function deleteBoard(boardId) {
     if (!confirm('정말 삭제하시겠습니까?')) return;
 
     $.ajax({
-        url: `/api/board/delete/${boardId}`,
+        url: `${cpath}/api/board/delete/${boardId}`,
         method: 'DELETE',
         success: function () {
             alert('삭제되었습니다.');
@@ -146,15 +204,25 @@ function deleteBoard(boardId) {
 
 // 모달 열기 + 기존 내용 불러오기
 function updateBoardModal(boardId) {
+    $('#summernote-update').summernote({
+        height: 300,
+        lang: 'ko-KR',
+        placeholder: '최대 2048자까지 작성할 수 있습니다',
+        callbacks: {
+            onImageUpload: function (files) {
+                uploadSummernoteImageFile(files[0], this);
+            }
+        }
+    });
+
     $.ajax({
-        url: `/api/board/detail/${boardId}`,
+        url: `${cpath}/api/board/detail/${boardId}`,
         method: 'GET',
         success: function (board) {
             $('#edit-board-id').val(board.uid);
             $('#edit-category').val(board.category);
             $('#edit-title').val(board.title);
-            $('#edit-content').val(board.content);
-            // $('#bannerImage').val(board.board_img || '');
+            $('#summernote-update').summernote('code', board.content);
 
             requestAnimationFrame(() => {
                 $('#editModal').stop(true, true).fadeIn(200);
@@ -175,12 +243,18 @@ function updateBoard() {
         const data = {
             category: $('#edit-category').val(),
             title: $('#edit-title').val(),
-            content: $('#edit-content').val(),
-            // board_img: $('#bannerImage').val()
+            content: $('#summernote-update').summernote('code')
         };
 
+        const currentImageUrls = boardData.content.match(/<img [^>]*src="([^"]*)"/g)
+            ?.map(tag => tag.match(/src="([^"]*)"/)[1]) || [];
+
+        const imageUrl = uploadedImageUrls.filter(url => !currentImageUrls.includes(url));
+
+        deleteImages(imageUrl)
+
         $.ajax({
-            url: `/api/board/update/${boardId}`,
+            url: `${cpath}/api/board/update/${boardId}`,
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(data),
@@ -196,7 +270,7 @@ function updateBoard() {
     });
 }
 
-// 타임스탬프를 YYYY-MM-DD 형식으로 변환
+// 타임스탬프 YYYY-MM-DD 형식 변환
 function formatDate(timestamp) {
     const date = new Date(timestamp);
     return date.toISOString().slice(0, 10); // 'YYYY-MM-DD'
