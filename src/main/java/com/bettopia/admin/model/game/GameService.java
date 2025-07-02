@@ -11,25 +11,22 @@ public class GameService {
     @Autowired
     private GameDAO gameDAO;
 
-    // ➕ 등록
-    public int create(GameDTO dto) {
-        return gameDAO.insert(dto);
+    public List<GameDTO> selectAll() {
+    	return gameDAO.selectAll();
     }
-
-    // ✏️ 수정
+    
+    public GameDTO selectByUid(String uid) {
+    	return gameDAO.selectByUid(uid);
+    }
+    
+    public int insert(GameDTO dto) {
+    	return gameDAO.insert(dto);
+    }
+    
     public int update(GameDTO dto) {
-        return gameDAO.update(dto);
+    	return gameDAO.update(dto);
     }
-
-    // ❌ 삭제 (uid 기준)
-    public int removeByUid(String uid) {
-        return gameDAO.delete(uid);
+    public int delete(String uid) {
+    	return gameDAO.delete(uid);
     }
-
-    // 📄 전체 조회
-    public List<GameDTO> getAll() {
-        return gameDAO.selectAll();
-    }
-
- 
 }
