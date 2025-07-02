@@ -13,6 +13,8 @@
     <title>게시판 상세 조회</title>
     <link rel="stylesheet" href="${cpath}/resources/css/board.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="${cpath}/resources/js/summernote/summernote-lite.js"></script>
+    <link rel="stylesheet" href="${cpath}/resources/css/summernote/summernote-lite.css">
     <script src="${cpath}/resources/js/board.js"></script>
 </head>
 <script>

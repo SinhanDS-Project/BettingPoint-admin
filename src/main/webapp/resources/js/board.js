@@ -1,12 +1,22 @@
 // 게시글 등록
 function insertBoard() {
+    $('#summernote-create').summernote({
+        height: 500,
+        lang: "ko-KR",
+        placeholder: '최대 2048자까지 쓸 수 있습니다',
+        callbacks: {
+            onImageUpload: function (files) {
+                uploadSummernoteImageFile(files[0], this);
+            }
+        }
+    });
+
     $('.form-section form').on('submit', function (e) {
         e.preventDefault();
         const boardData = {
             category: $('#boardType').val(),
             title: $('#boardTitle').val(),
-            content: $('#boardContent').val(),
-            // board_img: $('#bannerImage').val()
+            content: $('#summernote-create').summernote('code')
         };
 
         const token = localStorage.getItem("accessToken");
@@ -23,8 +33,29 @@ function insertBoard() {
                 alert('게시글이 등록되었습니다.');
                 loadBoardList();
                 $('.form-section form')[0].reset();
+                $('#summernote-create').summernote('reset');
             }
         });
+    });
+}
+
+// 이미지 S3에 업로드 후 Summernote에 삽입
+function uploadSummernoteImageFile(file, editor) {
+    let data = new FormData();
+    data.append("image", file);
+
+    $.ajax({
+        data: data,
+        type: "POST",
+        url: `/api/board/image-upload`,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            $(editor).summernote('insertImage', data.url);
+        },
+        error: function () {
+            alert("이미지 업로드에 실패했습니다.");
+        }
     });
 }
 
@@ -146,6 +177,17 @@ function deleteBoard(boardId) {
 
 // 모달 열기 + 기존 내용 불러오기
 function updateBoardModal(boardId) {
+    $('#summernote-update').summernote({
+        height: 300,
+        lang: 'ko-KR',
+        placeholder: '최대 2048자까지 작성할 수 있습니다',
+        callbacks: {
+            onImageUpload: function (files) {
+                uploadSummernoteImageFile(files[0], this);
+            }
+        }
+    });
+
     $.ajax({
         url: `/api/board/detail/${boardId}`,
         method: 'GET',
@@ -153,8 +195,7 @@ function updateBoardModal(boardId) {
             $('#edit-board-id').val(board.uid);
             $('#edit-category').val(board.category);
             $('#edit-title').val(board.title);
-            $('#edit-content').val(board.content);
-            // $('#bannerImage').val(board.board_img || '');
+            $('#summernote-update').summernote('code', board.content);
 
             requestAnimationFrame(() => {
                 $('#editModal').stop(true, true).fadeIn(200);
@@ -175,8 +216,7 @@ function updateBoard() {
         const data = {
             category: $('#edit-category').val(),
             title: $('#edit-title').val(),
-            content: $('#edit-content').val(),
-            // board_img: $('#bannerImage').val()
+            content: $('#summernote-update').summernote('code')
         };
 
         $.ajax({

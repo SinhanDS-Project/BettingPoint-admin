@@ -8,6 +8,8 @@
 <title>관리자 게시판 관리</title>
 	<link rel="stylesheet" href="${cpath}/resources/css/board.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="${cpath}/resources/js/summernote/summernote-lite.js"></script>
+	<link rel="stylesheet" href="${cpath}/resources/css/summernote/summernote-lite.css">
 	<script src="${cpath}/resources/js/board.js"></script>
 	<script src="${cpath}/resources/js/fileAjax.js"></script>
 </head>
@@ -26,7 +28,7 @@
 			<h2 style="margin-bottom: 10px;">📋 게시판 관리</h2>
 			<p style="color: #718096;">공지사항과 게시글을 관리하세요.</p>
 		</div>
-		<button class="btn btn-back" onclick="location.href='/admin'">대시보드로 돌아가기</button>
+		<button class="btn btn-back" onclick="location.href='/'">대시보드로 돌아가기</button>
 	</div>
 
 	<!-- 공지사항/FAQ 등록 폼 -->
@@ -48,22 +50,7 @@
 			</div>
 			<div class="form-group">
 				<label for="boardContent">내용</label>
-				<textarea id="boardContent" rows="4" placeholder="내용을 입력하세요"></textarea>
-			</div>
-			<div class="form-group">
-				<label>게시판 이미지</label>
-				<div class="drag-drop-area" id="boardDropArea">
-					<div class="icon">
-						<img src="${cpath}/resources/images/folder.png" width="100" height="100">
-					</div>
-					<p><strong>파일을 드래그하여 업로드하거나 클릭하여 선택하세요</strong></p>
-					<p style="font-size: 0.9rem; color: #a0aec0; margin-top: 10px;">
-						지원 형식: JPG, PNG, GIF (최대 5MB)<br>
-						한 개의 이미지만 가능합니다.
-					</p>
-					<input type="file" id="bannerImage" accept="image/*" style="display: none;">
-				</div>
-				<div id="boardPreview" style="margin-top: 15px;"></div>
+				<textarea id="summernote-create" name="content" required></textarea>
 			</div>
 			<button type="submit" class="btn btn-primary">등록</button>
 		</form>
@@ -135,12 +122,7 @@
 
 				<div class="form-group">
 					<label for="edit-content">내용</label>
-					<textarea id="edit-content" rows="4" required></textarea>
-				</div>
-
-				<div class="form-group">
-					<label for="edit-img">이미지 URL</label>
-					<input type="text" id="edit-img">
+					<textarea id="summernote-update" name="content"></textarea>
 				</div>
 			</div>
 
