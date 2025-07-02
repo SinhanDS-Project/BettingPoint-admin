@@ -32,7 +32,7 @@ function insertBoard() {
         const token = localStorage.getItem("accessToken");
 
         $.ajax({
-            url: '/api/board/insert',
+            url: `${cpath}/api/board/insert`,
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(boardData),
@@ -51,7 +51,7 @@ function insertBoard() {
 
 function deleteImages(imageUrl) {
     $.ajax({
-        url: '/api/board/image-delete',
+        url: `${cpath}/api/board/image-delete`,
         method: 'DELETE',
         contentType: 'application/json',
         data: JSON.stringify({urls: imageUrl}),
@@ -73,7 +73,7 @@ function uploadSummernoteImageFile(file, editor) {
     $.ajax({
         data: data,
         type: "POST",
-        url: `/api/board/image-upload`,
+        url: `${cpath}/api/board/image-upload`,
         contentType: false,
         processData: false,
         success: function (data) {
@@ -89,7 +89,7 @@ function uploadSummernoteImageFile(file, editor) {
 // 게시글 목록 불러오기
 function loadBoardList() {
     $.ajax({
-        url: '/api/board/list', // 실제 경로에 맞게 수정
+        url: `${cpath}/api/board/list`, // 실제 경로에 맞게 수정
         method: 'GET',
         success: function (data) {
             renderBoardTables(data);
@@ -151,7 +151,7 @@ function renderBoardTables(boardList) {
 // 게시글 상세 조회
 function detailBoard(boardId) {
     $.ajax({
-        url: `/api/board/detail/${boardId}`,
+        url: `${cpath}/api/board/detail/${boardId}`,
         method: 'GET',
         success: function (board) {
             loadBoardDetail(board);
@@ -193,7 +193,7 @@ function deleteBoard(boardId) {
     if (!confirm('정말 삭제하시겠습니까?')) return;
 
     $.ajax({
-        url: `/api/board/delete/${boardId}`,
+        url: `${cpath}/api/board/delete/${boardId}`,
         method: 'DELETE',
         success: function () {
             alert('삭제되었습니다.');
@@ -216,7 +216,7 @@ function updateBoardModal(boardId) {
     });
 
     $.ajax({
-        url: `/api/board/detail/${boardId}`,
+        url: `${cpath}/api/board/detail/${boardId}`,
         method: 'GET',
         success: function (board) {
             $('#edit-board-id').val(board.uid);
@@ -254,7 +254,7 @@ function updateBoard() {
         deleteImages(imageUrl)
 
         $.ajax({
-            url: `/api/board/update/${boardId}`,
+            url: `${cpath}/api/board/update/${boardId}`,
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(data),
