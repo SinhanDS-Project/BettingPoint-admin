@@ -49,7 +49,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="boardContent">내용</label>
+				<label for="summernote-create">내용</label>
 				<textarea id="summernote-create" name="content" required></textarea>
 			</div>
 			<button type="submit" class="btn btn-primary">등록</button>
@@ -121,7 +121,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="edit-content">내용</label>
+					<label for="summernote-update">내용</label>
 					<textarea id="summernote-update" name="content"></textarea>
 				</div>
 			</div>
