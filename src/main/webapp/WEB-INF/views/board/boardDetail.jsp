@@ -15,11 +15,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="${cpath}/resources/js/summernote/summernote-lite.js"></script>
     <link rel="stylesheet" href="${cpath}/resources/css/summernote/summernote-lite.css">
-    <script src="${cpath}/resources/js/board.js"></script>
 </head>
 <script>
     var cpath = '${pageContext.request.contextPath}';
 </script>
+<script src="${cpath}/resources/js/board.js"></script>
 <body>
 <div class="board">
     <div class="card">
@@ -67,7 +67,7 @@
         </div>
 
         <div style="text-align: right; margin-top: 20px;">
-            <a href="/board" class="btn btn-back">목록으로</a>
+            <a href=`${cpath}/board` class="btn btn-back">목록으로</a>
         </div>
     </div>
 </div>

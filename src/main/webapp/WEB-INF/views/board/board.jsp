@@ -27,7 +27,7 @@
 			<h2 style="margin-bottom: 10px;">📋 게시판 관리</h2>
 			<p style="color: #718096;">공지사항과 게시글을 관리하세요.</p>
 		</div>
-		<button class="btn btn-back" onclick="location.href='/'">대시보드로 돌아가기</button>
+		<button class="btn btn-back" onclick="location.href='${cpath}/'">대시보드로 돌아가기</button>
 	</div>
 
 	<!-- 공지사항/FAQ 등록 폼 -->
