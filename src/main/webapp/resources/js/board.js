@@ -270,7 +270,7 @@ function updateBoard() {
     });
 }
 
-// 타임스탬프를 YYYY-MM-DD 형식으로 변환
+// 타임스탬프 YYYY-MM-DD 형식 변환
 function formatDate(timestamp) {
     const date = new Date(timestamp);
     return date.toISOString().slice(0, 10); // 'YYYY-MM-DD'
