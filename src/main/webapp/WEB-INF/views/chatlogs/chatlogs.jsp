@@ -16,7 +16,7 @@
 	<script src="${cpath}/resources/js/chatlogs.js" defer></script>
 		
 	<!-- summernote -->
-	<script src="${cpath}/resources/js/summernote/summernote-lite.js"></script>
+	<script src="${cpath}/resources/js/summernote/summernote-lite-noImageVideo.js"></script>
 	<link rel="stylesheet"
 		  href="${cpath}/resources/css/summernote/summernote-lite.css">
 
@@ -89,7 +89,7 @@
 		
 		                <div class="form-group">
 		                    <label for="editChatlogQuestion">질문 내용</label>
-		                    <textarea id="editChatlogQuestion" rows="4" readonly></textarea>
+		                    <div id="editChatlogQuestion" class="question-box" readonly></div>
 		                </div>
 		
 		                <div class="form-group">
