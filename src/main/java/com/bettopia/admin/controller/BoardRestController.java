@@ -77,4 +77,16 @@ public class BoardRestController {
 
         return response;
     }
+
+    // summernote에서 이미지 삭제시
+    @DeleteMapping("/image-delete")
+    public void deleteImage(@RequestBody Map<String, List<String>> body) {
+        List<String> urls = body.get("urls");
+
+        if (urls != null) {
+            for (String url : urls) {
+                s3FileService.deleteFileByUrl(url);
+            }
+        }
+    }
 }

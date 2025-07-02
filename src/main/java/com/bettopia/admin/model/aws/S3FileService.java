@@ -84,4 +84,16 @@ public class S3FileService {
             System.err.println("클라이언트 오류: " + e.getMessage());
         }
     }
+
+	// summernote에서 이미지 삭제 시 S3 객체의 전체 URL을 받아 object key 파싱 Add commentMore actions
+	public void deleteFileByUrl(String fileUrl) {
+		// fileUrl이 null이 아니고, 우리가 기대하는 S3 호스트로 시작하는지 확인
+		String prefix = "https://" + bucketName + ".s3." + amazonS3.getRegion() + ".amazonaws.com/";
+		// prefix 이후의 부분만 잘라내면 버킷 내 object key가 됨
+		if (fileUrl != null && fileUrl.startsWith(prefix)) {
+			String key = fileUrl.substring(prefix.length());
+			// 잘라낸 key를 이용해 S3에서 실제 객체를 삭제
+			deleteObject(key);
+		}
+	}
 }

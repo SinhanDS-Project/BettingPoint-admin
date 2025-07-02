@@ -1,5 +1,8 @@
+let uploadedImageUrls = [];
+
 // 게시글 등록
 function insertBoard() {
+
     $('#summernote-create').summernote({
         height: 500,
         lang: "ko-KR",
@@ -18,6 +21,25 @@ function insertBoard() {
             title: $('#boardTitle').val(),
             content: $('#summernote-create').summernote('code')
         };
+
+        const currentImageUrls = boardData.content.match(/<img [^>]*src="([^"]*)"/g)
+            ?.map(tag => tag.match(/src="([^"]*)"/)[1]) || [];
+
+        const imageUrl = uploadedImageUrls.filter(url => !currentImageUrls.includes(url));
+
+        $.ajax({
+            url: '/api/board/image-delete',
+            method: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify({urls: imageUrl}),
+            success: function () {
+                console.log('S3에서 이미지 삭제 완료');
+                uploadedImageUrls = [];
+            },
+            error: function (err) {
+                console.error('S3 이미지 삭제 실패:', err);
+            }
+        });
 
         const token = localStorage.getItem("accessToken");
 
@@ -52,6 +74,7 @@ function uploadSummernoteImageFile(file, editor) {
         processData: false,
         success: function (data) {
             $(editor).summernote('insertImage', data.url);
+            uploadedImageUrls.push(data.url);
         },
         error: function () {
             alert("이미지 업로드에 실패했습니다.");
