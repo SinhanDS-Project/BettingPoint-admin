@@ -240,7 +240,7 @@ function updateBoard() {
         e.preventDefault();
 
         const boardId = $('#edit-board-id').val();
-        const data = {
+        const boardData = {
             category: $('#edit-category').val(),
             title: $('#edit-title').val(),
             content: $('#summernote-update').summernote('code')
