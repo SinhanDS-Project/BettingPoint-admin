@@ -56,7 +56,6 @@ function deleteImages(imageUrl) {
         contentType: 'application/json',
         data: JSON.stringify({urls: imageUrl}),
         success: function () {
-            console.log('S3에서 이미지 삭제 완료');
             uploadedImageUrls = [];
         },
         error: function (err) {
