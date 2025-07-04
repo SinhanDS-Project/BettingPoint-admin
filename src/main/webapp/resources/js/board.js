@@ -257,7 +257,7 @@ function updateBoard() {
             url: `${cpath}/api/board/update/${boardId}`,
             method: 'PUT',
             contentType: 'application/json',
-            data: JSON.stringify(data),
+            data: JSON.stringify(boardData),
             success: function () {
                 alert('수정이 완료되었습니다.');
                 closeEditModal();
