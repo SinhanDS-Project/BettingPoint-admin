@@ -6,8 +6,11 @@ function insertBoard() {
     $('#summernote-create').summernote({
         height: 500,
         lang: "ko-KR",
+        shortcuts: false, //단축키 비활성화
         placeholder: '최대 2048자까지 쓸 수 있습니다',
-        toolbar: [
+        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
+		        			'맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+		        toolbar: [
 		            	// 글꼴 
 		                [ 'fontname', ['fontname']],
 		                // 글자 크기 설정
@@ -25,7 +28,7 @@ function insertBoard() {
 		                // 코드 보기
 		                ['view', ['codeview']],   
 		            ],
-        
+		            
         
         callbacks: {
             onImageUpload: function (files) {
