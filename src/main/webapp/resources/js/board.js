@@ -7,6 +7,26 @@ function insertBoard() {
         height: 500,
         lang: "ko-KR",
         placeholder: '최대 2048자까지 쓸 수 있습니다',
+        toolbar: [
+		            	// 글꼴 
+		                [ 'fontname', ['fontname']],
+		                // 글자 크기 설정
+		                ['fontsize', ['fontsize']],
+		                // 글꼴 스타일
+		                ['font', ['bold', 'underline', 'clear']],
+		                // 글자 색상
+		                ['color', ['color']],
+		                // 문단 스타일
+		                ['para', ['paragraph']],
+		                // 글 높낮이 간격
+		                ['height', ['height']],
+		            	// 이미지 삽입
+		                ['insert', ['picture']],
+		                // 코드 보기
+		                ['view', ['codeview']],   
+		            ],
+        
+        
         callbacks: {
             onImageUpload: function (files) {
                 uploadSummernoteImageFile(files[0], this);
@@ -207,6 +227,24 @@ function updateBoardModal(boardId) {
         height: 300,
         lang: 'ko-KR',
         placeholder: '최대 2048자까지 작성할 수 있습니다',
+        toolbar: [
+		            	// 글꼴 
+		                [ 'fontname', ['fontname']],
+		                // 글자 크기 설정
+		                ['fontsize', ['fontsize']],
+		                // 글꼴 스타일
+		                ['font', ['bold', 'underline', 'clear']],
+		                // 글자 색상
+		                ['color', ['color']],
+		                // 문단 스타일
+		                ['para', ['paragraph']],
+		                // 글 높낮이 간격
+		                ['height', ['height']],
+		            	// 이미지 삽입
+		                ['insert', ['picture']],
+		                // 코드 보기
+		                ['view', ['codeview']],   
+		            ],
         callbacks: {
             onImageUpload: function (files) {
                 uploadSummernoteImageFile(files[0], this);
